@@ -1,1 +1,35 @@
 \chapter{Fazit}\label{ch:fazit}
+Der finale Stand der Applikation kann in zwei Komponenten unterteilt werden: Den Informationsbereich und den Augmented Realiy Bereich, welche beide über das Hauptmenü erreichbar sind.
+In ersterem kann der Anwender einen Kontinent auswählen und sich anschließend in diesem für eines von drei enthaltenen Ländern entscheiden, zu dem er fünf Informationen gezeigt bekommt.
+Im Augmented Reality Bereich ist es möglich, definierte Bildmarker auf einem Globus zu erkennen und ein entsprechendes 3D Objekt, welches ein Land repräsentiert, auf diesen anzuzeigen zu lassen.
+Zu dem erkannten Land können nun Informationen eingesehen werden oder ein Quiz mit aktuell fünf Fragen gestartet werden. 
+Bei der Informationsauswahl gelangt der Nutzer in den auch vom Hauptmenü aus erreichbaren Informationsbereich, wird jedoch in diesem Fall direkt zur Startseite für das Land geleitet, von welcher aus er Zugriff auf die Informationen zu diesem hat.
+Das Quiz besteht aus fünf Fragen zu dem jeweilig erkannten Land, die bei jedem Spiel in unterschiedlicher Reihenfolge angezeigt werden.
+Der Nutzer hat die Möglichkeit, von vier Antworten eine richtige auszuwählen und erhält nach Beendigung des Quiz ein Feedback zu seinem Ergebnis, welches jedoch bewusst keine Aussage darüber trifft, welche Fragen richtig und falsch beantwortet wurden.
+
+Bei Betrachtung des finalen Standes lässt sich somit erkennen, dass mit Ausnahme von einer Anforderung, alle in Kapitel \ref{inhaltliche_anforderungen} definierten inhaltlichen Anforderungen umgesetzt wurden.
+Bei der nicht erfüllten inhaltlichen Anforderung handelt es sich um die Idee, in die Applikation ein Levelsystem einzubauen, bei dem der Nutzer durch erfolgreich bestandene Quizze Kontinente freischalten kann.
+Obwohl durch die in Kapitel \ref{datenbankentwurf} beschriebene Datenbankarchitektur die Erweiterung der Anwendung um ein Levelsystem möglich ist, wurde dieses aus zeitlichen Gründen nicht umgesetzt, wäre jedoch mithilfe der angelegten Datenbank leicht möglich.
+
+Eine andere Idee, die wir bei der Entwicklung der Anwendung von Anfang an beachtet hatten, wäre, die Applikation auf unterschiedliche inhaltliche Kontexte anzuwenden.
+Ein Beispiel für einen anderen passenden Kontext wäre, eine Augmented Reality Applikation für eine \textquote{Schnitzeljagd} durch die Uni, bei der beispielsweise erkennbare Marker auf Büros, das Bild von dem jeweiligen Professor anzeigen und die Nutzer fragen zur Uni gestellt bekommen.
+Das Anwenden der Applikation auf andere Kontexte wird durch den generischen Aufbau der Anwendung und einfach auswechselbare Schnittstelleninhalte realisiert.
+Datenbankinhalte, wie Fragen und Informationen sowie die erkennbaren Bildziele können leicht geändert werden, ohne die Funktionsweise der Anwendung zu beeinflussen, wodurch der Anwendungsbereich der Lernapplikation sehr flexibel wird.
+
+Im Hinblick auf den Entwicklungsprozess der Anwendung lässt sich sagen, dass sich die Versionsverwaltung mit Git als teilweise problematisch erwiesen hat.
+Da Git keine von Unity unterstützte Versionsverwaltungssoftware ist, führen zeitgleiche Änderungen von Szenen zu Merge-Konflikten.
+Änderungen in den Szenen sind in einem Merge-Tool außerhalt von Unity schwer nachzuverfolgen, da die als \textquote{-
+.unity}-Datei gespeicherten Szenen nicht gelesen werden können. 
+Um keine Änderungen zu verlieren, war es für uns deshalb nötig, uns gut abzusprechen und sich die lokalen Dateien häufig mit dem aktuellen Stand zu synchronisieren.
+Da sich dieses Vorgehen als unproblematisch erwiesen hat, haben wir das Versionsverwaltungsprogramm nicht mehr während des Entwicklungsprozess geändert.
+Für ein neues Projekt, wäre es jedoch sinnvoll, darauf zu achten, eine von Unity unterstützte Versionsverwaltung, wie \textquote{Perforce} oder \textquote{Plastic SCM} zu verwenden, welche Änderungen an der gleichen Szene problemlos zusammenführen können.
+
+Außerdem haben wir feststellen können, dass Unity weniger für die Oberflächenentwicklung geeignet ist. 
+Obwohl das Programm die Möglichkeit bietet, Oberflächenelemente, wie Buttons oder Texte einzufügen, ist die Auswahl dieser sehr begrenzt auf die einfachen Elemente.
+Eine gute Ergänzung für Benutzeroberflächen bietet der \textquote{AssetStore}, in dem Entwickler eigens entwickelte Elemente zur Verfügung stellen können, die meist kostenlos nutzbar sind.
+Da uns dieser Nachteil bei der Evaluation bereits bewusst war, Unity aber für das Renderung von 3D Objekten besser geeignet ist als die App-Entwicklungsoberfläche Android Studio, mussten wir bei der Wahl der Benutzeroberfläche Prioritäten setzen und haben uns trotz dieses Nachteils bewusst für den Einsatz von Unity entschieden.
+
+Zur Entwicklung von guten Anwendungen gehören nicht nur fähige Programmierer.
+Eine ganz wichtige Rolle in der Anwendungsentwicklung spielt auch die Projektplanung und -organisation, sowie die Teamfähigkeit der einzelnen Projektmitarbeiter.
+Da wir die Lern-Applikation selbstständig konzeptioniert und entwickelt haben, spielte vor allem die Planung im Team eine sehr wichtige Rolle, die uns jedoch durch die gegebene Flexibilität bei der Themenwahl großen Spaß bereitet hat.
+Zusammenfassend lässt sich somit sagen, dass wir durch das Projekt nicht nur an Programmiererfahrung, sondern auch an Erfahrung in Hinblick auf die Projektorganisation und das Arbeiten im Team gewonnen haben. 
