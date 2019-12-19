@@ -1,5 +1,5 @@
 \chapter{Realisierung}\label{ch:realisierung_der_anwendung}
-\section{Einbindung der Mustererkennung}
+\section{Einbindung der Mustererkennung}\label{einbindung_mustererkennung}
 \subsection{Image Targets}\label{image_targets}
 \subsection{Integration der Image Targets}\label{integration_image_targets}
 
@@ -68,7 +68,7 @@ Zum Einen erleichterte sie die Einbindung der Objekte, da die aus unterschiedlic
 Durch einfache Transformationsoperationen konnten diese Objekte somit auf eine einheitliche Größe und Ausrichtung normalisiert werden, wodurch die aufwendigere Bearbeitung in Unity nicht mehr nötig war.
 
 Ein weiterer Anwendungsfall für die nötige Vorverarbeitung der 3D Objekte in Blender war die nötige Reduktion der Polygonzahl der Objekte. 
-Die aus dem Internet stammenden Körper wiesen eine sehr hohe Polygonzahl vor und waren dadurch sehr hoch aufgelöst, was zu einer größeren Dateigröße und somit einer Belastung des Anwendungsspeichers führen würde. 
+Die aus dem Internet stammenden Körper wiesen eine sehr hohe Polygonzahl auf und waren dadurch sehr hoch aufgelöst, was zu einer größeren Dateigröße und somit einer Belastung des Anwendungsspeichers führen würde. 
 Eine solch hohe Auflösung war in unserem Anwendungsfall nicht nötig, da die 3D Objekte auf dem Globus sehr klein skaliert angezeigt werden und die gegebenen Genauigkeiten somit nicht auffallen würden. 
 Um Speicherplatz innerhalb der App zu sparen wurde die Polygonzahl und damit die Dateigröße der 3D Objekte mithilfe von Blender um das zehnfache verringert, bevor diese in der App eingebunden wurden.
 
@@ -94,7 +94,7 @@ Um dies zu realisieren, werden die 3D Objekte in der Entwicklungsoberfläche als
 Das Verhalten dieser Vuforia-Elemente wird durch das \textquote{DefaultTrackableEvent-Handler}-Skript bestimmt, welches den Elementen standardmäßig beigefügt ist. 
 Bei der Feuerung des \textquote{OnTrackableFound}-Events, das heißt der Erkennung eines Image-Targets, werden die diesem untergeordneten, renderbaren Kindelemente mithilfe der von Unity bereitgestellten \textquote{Renderer}-Klasse automatisch gerendert.
 
-Das beschriebene \textquote{DefaultTrackable-EventHandler}-Skript kann nach belieben bearbeitet werden, um ein besonderes, durch den Benutzer gewünschtes Verhalten hervorzurufen.
+Das beschriebene \textquote{DefaultTrackable-EventHandler}-Skript kann nach Belieben bearbeitet werden, um ein besonderes, durch den Benutzer gewünschtes Verhalten hervorzurufen.
 In unserem Fall wurde das \textquote{OnTrackable-Found}-Event so überschrieben, dass zusätzlich zu dem 3D Objekt noch zwei Buttons angezeigt werden, mit welchen der User interagieren kann.
 
 \section{Verwaltung der Daten}
