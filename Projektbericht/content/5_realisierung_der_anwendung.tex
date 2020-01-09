@@ -1,20 +1,56 @@
 \chapter{Realisierung}\label{ch:realisierung_der_anwendung}
-TODO
+In den nachfolgenden Abschnitten werden alle für die Anwendung wichtigen Aspekte und deren Umsetzung erläutert. 
 
 \section{Einbindung der Mustererkennung}\label{einbindung_mustererkennung}
 In Abschnitt \ref{mustererkennung_vuforia} haben wir uns bereits mit der internen Funktionsweise des Augmented Reality Frameworks \textquote{Vuforia} beschäftigt. 
 Damit wir dessen vollen Umfang in der Unity-Projektumgebung nutzen können, mussten wir das entsprechende Vuforia Software Development Kit einbinden.
 Es beinhaltet im wesentlichen alle Grundbausteine für die Entwicklung einer Augmented Reality App und stellt diese in Form von Unity Gameobjects bereit. 
 Dadurch sind sie genau wie herkömmliche Gameobjects benutzbar. 
-Sie können ganz einfach in ein bestehendes Unity-Projekt integriert werden und es erweitern.
+Sie können ganz einfach in ein bestehendes Unity-Projekt integriert werden und dieses erweitern.
+
 Beispiele für ein paar der Bausteine wären zum einen die AR Camera. 
-Sie beinhaltet Logik um die Hauptkamera des ausführenden Gerätes anzusteuern. Die Szene in der die Kamera platziert wurde wird nun durch die Sicht des Gerätes dargestellt. 
+Sie beinhaltet Logik um die Hauptkamera des ausführenden Gerätes anzusteuern. Die Szene in der die Kamera platziert wurde, wird nun in das Kamerabild der realen Welt projiziert.
 Dieser Baustein ist essentiell für die Erstellung einer Augmented Reality App. 
 
 Auf einen Weiteren essentiellen Baustein aus der Vuforia SDK wird in den nachfolgenden Unterabschnitten \ref{image_targets} und \ref{integration_image_targets} eingegangen. 
 
 \subsection{Image Targets}\label{image_targets}
+Da wir uns in der Anwendung für die markerbasierte Variante der Augmented Reality entschieden haben, benötigen wir hierzu die passenden Marker. 
+Wie bereits in Abschnitt \ref{mustererkennung_vuforia} beschrieben, bietet Vuforia hier die Möglichkeit eigene Image Targets zu verwenden. 
+Da diese innerhalb der Anwendung möglichst gut erkannt werden sollen, müssen bei der Wahl der Bilder einige Qualitätskriterien beachtet werden.
+
+Eines dieser Kriterien sind die Ecken und Kanten im Bild, welche durch die Featureextraktion beim hochladen des Bildes berücksichtigt werden. 
+Jede scharfe Ecke und Kante wird als Feature abgespeichert und dient später, bei der Bilderkennung innerhalb der Anwendung als Vergleichsmerkmal. 
+Je mehr dieser markanten Punkte im Bild vorhanden sind, desto leichter fällt es der Vuforia Engine das Image Target im Kamerabild der AR-Anwendung zu identifizieren.
+
+Um sicherzugehen, dass aus dem gewählten Image Target viele Features extrahiert werden können, muss das Bild hohe lokale Kontraste besitzen. Das heißt es muss genügend Stellen geben, an denen sehr helle Pixel neben sehr dunklen liegen. 
+Hiermit ergeben sich ausgeprägte Farbunterschiede und somit schärfere Ecken und Kanten, welche als potentielle Features in Frage kommen.
+
+\begin{figure} [h]
+\centering
+\includegraphics[width=12cm]{Image_Targets.jpg}
+\caption{Beispiele der verwendeten Image Targets}
+\label{fig:image_targets}
+\end{figure}
+
+In der Abbildung \ref{fig:image_targets} sind die finalen Image Targets der beschriebenen Anwendung zu sehen.
+Die Grundform der Targets stellt die heutzutage sehr häufig genutzte Form des Standortsymbols dar.
+Wir wählten die Form aufgrund ihrer Intuitivität im Anbetracht der gesamten Thematik der Anwendung.
+Diese werden in der Praxis auf einem Globus platziert und jedes der Targets repräsentiert ein Land.
+Um die Verbindung zu dem jeweiligem Land erkenntlich zu machen, bauten wir die Flagge des Landes mit in das Standortsymbol ein. 
+Somit ist jedes Image Target einzigartig und lässt sich von den anderen unterscheiden. 
+Der Nutzer der Anwendung kann jetzt erkennen, welches Image Target zu welchem Land gehört und gleichzeitig kann er sich die Flaggen der Länder einprägen. 
+
+Nun sind zwar alle Targets einzigartig und können in manchen Fällen sehr gut unterschieden werden, jedoch ist das noch nicht genug um bei der Targeterkennung befriedigende Ergebnisse zu erhalten. 
+Bei der Merkmalsextraktion werden die Bilder in Graustufen umgewandelt und verlieren somit jegliche Farbinformationen. Dies kann beispielsweise bei den Flaggen von Deutschland und den Niederlanden zu Schwierigkeiten in der Unterscheidung führen, da sie aus den exakt gleichen Formen bestehen. 
+Die Ecken- und Kantenmerkmale wären damit exakt die selben. 
+Um dieses Problem zu lösen hinterlegten wir jede Flagge mit einem individuellem QR-Code. Dieser ist leicht transparent, bringt aber dennoch mehr Kontrast in das Bild. 
+Somit können selbst aus den einfach geformten Flaggen genügend eindeutige Merkmale erzeugt werden.
+
+Diese Art der Image Targets resultiert in der Vuforia Engine in einer Fünf-Sterne Erkennungsrate.
+
 \subsection{Integration der Image Targets}\label{integration_image_targets}
+
 
 \section{Verwendung von 3D Objekten}\label{verwendung_3d_objekte}
 Die in der Anwendung verwendeten 3D Objekte liegen im \textquote{object}-Format vor, welches durch die Dateiendung \textquote{.obj} gekennzeichnet ist. 
