@@ -1,6 +1,6 @@
 \chapter{Funktionsweise der Komponenten}\label{ch:funktionsweise_der_komponenten}
 Die folgenden Abschnitte beschreiben die Funktionsweise der Mustererkennung in Vuforia und bieten einen grundlegenden Überblick über den Aufbau einer Unity-Anwendung.
-\section{Mustererkennung in Vuforia}
+\section{Mustererkennung in Vuforia}\label{mustererkennung_vuforia}
 Vuforia ist ein Augmented Reality Software Development Kit für die Erstellung von Augmented Reality (AR) Anwendungen auf mobilen Geräten und Tablets.
 Verschiedene Ziele können in Echtzeit erkannt und verfolgt werden, was die Möglichkeit bietet, virtuelle Objekte wie 3D Modelle in Bezug auf diese Ziele in der realen Welt zu positionieren.
 Das virtuelle Objekt verfolgt dann die Position und Ausrichtung des Bildes in Echtzeit, sodass die Perspektive des Betrachters erhalten und das virtuelle Objekt als ein Teil der realen Szene erscheint.
@@ -24,7 +24,7 @@ Bei der Erstellung eines solchen Image Targets ist die Angabe eines Bildnamens u
 Das Target Management System liefert dem Nutzer eine Bewertung der erwarteten Erkennungs- und Verfolgungsleistung des Ziels, sowie eine Visualisierung der von der Vuforia Engine verwendeten Merkmale des Ziels, beispielhaft dargestellt in Abbildung \ref{fig:image_target_rating}. 
 Diese Erkennungsmerkmale sind die im Muster gelb eingefärbten Stellen.
 Um ein hohes Rating und somit eine gute Bilderkennung zu gewährleisten, sollte deshalb auf die Wahl von geeigneten Image Targets geachtet werden.
-Die Kriterien bei dieser Auswahl werden in Abschnitt \ref{image_targets} beschrieben.
+Die Kriterien bei dieser Auswahl, sowie die Integration der fertigen Image Targets werden in Abschnitt \ref{einbindung_mustererkennung} beschrieben.
 
 \begin{figure} [h]
 \centering
@@ -32,12 +32,9 @@ Die Kriterien bei dieser Auswahl werden in Abschnitt \ref{image_targets} beschri
 \caption{Image Target mit verwendeten Merkmalen und Rating}
 \label{fig:image_target_rating}
 \end{figure}
- 
-Das generierte Target Management System kann in Unity importiert werden, sodass die enthaltenen Image Targets in der Gerätedatenbank hinterlegt werden. 
-Über das Vuforia SDK, welches in Unity eingebunden sein muss, kann innerhalb der Anwendung auf die Inhalte der Gerätedatenbank zugegriffen werden, um das Kamerabild mit den dort hinterlegten Image Targets zu vergleichen.
 
-Beim Ausführen der Applikation wird dann von der Vuforia Engine eine Mustererkennung durchgeführt und die Kamerainformationen des Gerätes werden mit den in den Gerätedatenbank abgelegten Dateien verglichen. 
-Im Falle einer Übereinstimmung wird eine zweite Mustererkennung gestartet, die den Abstand und die Rotation des Musters, welches in der Datenbank gespeichert ist, mit dem erkannten Muster vergleicht.
+Beim Ausführen der Applikation wird von der Vuforia Engine eine Mustererkennung durchgeführt und die Kamerainformationen des Gerätes werden mit den Image-Target-Dateien verglichen. 
+Im Falle einer Übereinstimmung wird eine zweite Mustererkennung gestartet, die den Abstand und die Rotation des Image Targets, mit dem erkannten Muster vergleicht.
 Diese Informationen verwendet die Vuforia Engine dann, um die Größe und Ausrichtung des darzustellenden 3D Modells entsprechend anzupassen. (vgl. \cite{Grahn2017})
 \section{Aufbau einer Unity-Applikation}
 Bevor in Abschnitt \ref{ch:realisierung_der_anwendung} näher auf die Nutzung von Unity für das gegebene IT Projekt eingegangen wird, wird im Folgenden der allgemeine Aufbau einer Unity-Anwendung erläutert. 
@@ -57,7 +54,8 @@ Bei Objekten, die in einer Eltern-Kind-Beziehung stehen, vererben Objekte in hö
 \end{figure}
 
 Da die GameObjects standardmäßig kein Aussehen und Verhalten haben, werden diese über sogenannte Komponenten, die einem GameObject angefügt werden können, definiert.
-Diese stellen verschiedene Funktionen bereit, um das Verhalten und Aussehen der GameObjects zu bestimmen werden unterteilt in vordefinierte Komponenten und dem speziellen Komponententyp \textquote{Script}.
+Diese stellen verschiedene Funktionen bereit, um das Verhalten und Aussehen der GameObjects zu bestimmen. 
+Und werden unterteilt in vordefinierte Komponenten und dem speziellen Komponententyp \textquote{Script}.
 
 Diese Scriptkomponente ist ebenfalls ein GameObject und ermöglicht es dem Benutzer, dem GameObject ein eigens definiertes Verhalten hinzuzufügen. 
 Sie unterstützt die Programmierung in C\# und der an JavaScript angelehnten Programmiersprache UnityScript (vgl. \cite{Geiger2014}).
@@ -73,10 +71,4 @@ Abbildung \ref{fig:gameObject_unity_komponenten}. zeigt ein GameObject, dem mith
 
 Alle beschriebenen Elemente sind in den Assets des Projektes zusammengefasst, welcher der oberste Ordner in der Unity-Ebene ist, in dem auch alle Medieninhalte hinterlegt sind.
 
-Für die Implementierung von Augmented Reality Anwendungen ist ein Vuforia SDK für Unity verfügbar, welches verschiedene GameObjects zur Umsetzung von AR-Anwendungen enthalten.
-
-Eines dieser GameObjects ist die ARCamera, die die standardmäßig in einer Szene enthaltene Kamera ersetzen muss. 
-Diese ermöglicht den Zugriff der Anwendung auf die Gerätekamera des Mobilgerätes.
-Des Weiteren ist durch das \textquote{ImageTarget}-GameObject der Zugriff auf eine von Vuforia importierte Datenbank mit dort hinterlegten Markern möglich, wodurch eine Mustererkennung realisiert werden kann.
-
-Die genaue Funktionsweise der Mustererkennung sowie der Einbindung der Funktionalitäten von Vuforia wird genauer in Kapitel \ref{einbindung_mustererkennung} erklärt.
+Für die Implementierung von Augmented Reality Anwendungen ist ein Vuforia SDK für Unity verfügbar, welches verschiedene GameObjects zur Umsetzung von AR-Anwendungen enthält. Auf einige dieser wird im nachfolgenden Abschnitt \ref{einbindung_mustererkennung} eingegangen.
