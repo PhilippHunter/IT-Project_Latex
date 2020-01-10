@@ -4,8 +4,8 @@ In den nachfolgenden Abschnitten werden alle für die Anwendung wichtigen Aspekt
 \section{Einbindung der Mustererkennung}\label{einbindung_mustererkennung}
 In Abschnitt \ref{mustererkennung_vuforia} haben wir uns bereits mit der internen Funktionsweise des Augmented Reality Frameworks \textquote{Vuforia} beschäftigt. 
 Damit wir dessen vollen Umfang in der Unity-Projektumgebung nutzen können, mussten wir das entsprechende Vuforia Software Development Kit einbinden.
-Es beinhaltet im wesentlichen alle Grundbausteine für die Entwicklung einer Augmented Reality App und stellt diese in Form von Unity Gameobjects bereit. 
-Dadurch sind sie genau wie herkömmliche Gameobjects benutzbar. 
+Es beinhaltet im wesentlichen alle Grundbausteine für die Entwicklung einer Augmented Reality App und stellt diese in Form von Unity GameObjects bereit. 
+Dadurch sind sie genau wie herkömmliche GameObjects nutzbar.
 Sie können ganz einfach in ein bestehendes Unity-Projekt integriert werden und dieses erweitern.
 
 Beispiele für ein paar der Bausteine wären zum einen die AR Camera. 
@@ -50,7 +50,23 @@ Somit können selbst aus den einfach geformten Flaggen genügend eindeutige Merk
 Diese Art der Image Targets resultiert in der Vuforia Engine in einer Fünf-Sterne Erkennungsrate.
 
 \subsection{Integration der Image Targets}\label{integration_image_targets}
+Nachdem nun alle fertigen Image Targets in die Vuforia-Weboberfläche geladen wurden, müssen diese ihren Weg in die Anwendungsumgebung finden.
+Hierzu wird aus der Weboberfläche eine Datenbank erzeugt, die alle Targets enthält. 
+Anschließend wird diese als \textquote{.unitypackage}-Datei heruntergeladen und kann ganz einfach in das bestehende Unityprojekt importiert werden.
 
+Um nun die einzelnen Image Targets innerhalb der Anwendung nutzbar zu machen, erstellten wir zunächst eine dedizierte Szene. 
+In dieser Szene befindet sich zuerst einmal die AR Camera, welche in Abschnitt \ref{einbindung_mustererkennung} beschrieben ist. 
+Des Weiteren benötigen wir für jedes vorhandene Land das passende Target.
+Ein Image Target wird in Form eines GameObjects in die Szene geladen.
+Es ist ein spezieller Typ von GameObjects, welcher von der Vuforia-SDK mitgebracht wird.
+Dieser Typ enthält bereits vordefinierte Logik in Form von Komponenten. 
+Zum Beispiel die Scriptkomponente \textquote{Image Target Behaviour}, welche die Kommunikation mit der Image Target Datenbank regelt. 
+Sie beitet die Möglichkeit zwischen allen importierten Datenbanken und den darin enthaltenen Image Targets zu wählen.
+Wählt man jetzt beim ersten GameObject das Target des Landes Indien, so erscheint an der Stelle des vorher leeren Objekts, das erstellte Image Target für genau dieses Land.
+Dies müssen wir nun für alle restlichen Länder wiederholen, damit alle in der Szene enthalten sind.
+
+Wenn nun die fertige Szene gestartet wird, öffnet sich zunächst die Kamera des ausführenden Geräts.
+Im Hintergrund wird das Kamerabild ständig untersucht und geprüft, ob sich eines der in der Szene liegenden Image Targets im Sichtfeld befindet. Was daraufhin passiert wird in Abschnitt \ref{einbindung_3D_objekte} beschrieben.
 
 \section{Verwendung von 3D Objekten}\label{verwendung_3d_objekte}
 Die in der Anwendung verwendeten 3D Objekte liegen im \textquote{object}-Format vor, welches durch die Dateiendung \textquote{.obj} gekennzeichnet ist. 
@@ -135,7 +151,7 @@ Die Veränderung der Polygonzahl wird durch Grafiken \ref{fig:elefant_viele_poly
 \end{figure}
 
 Aus Grafik \ref{fig:elefant_wenig_polygone} geht hervor, dass sich die Gestalt des 3D Objektes trotz verringerter Polygonzahl kaum verändert und der Prozess der Polygonreduktion somit zu einem nicht merklichen Genauigkeitsverlust führt.
-\subsection{Einbindung der 3D Objekte in Unity}
+\subsection{Einbindung der 3D Objekte in Unity}\label{einbindung_3D_objekte}
 Der Zugriff auf die ausgewählten 3D Objekte innerhalb des Unity-Entwicklungsoberfläche, sowie der Applikation wird ermöglicht, indem die Objekte im Projektpfad als Ressourcen abgelegt werden, welche beim Bauen der Applikation auf das Endgerät mit übertragen werden. 
 
 Wie in Abschnitt, \ref{projektziel} beschrieben, soll ein 3D Objekt nur bei der Erkennung des ihm zugeordneten Landes angezeigt werden.
