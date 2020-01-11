@@ -164,7 +164,7 @@ In unserem Fall wurde das \textquote{OnTrackable-Found}-Event so überschrieben,
 
 \section{Verwaltung der Daten}
 \subsection{Datenbankentwurf}\label{datenbankentwurf}
-\subsection{Zugriff auf Datenbankinhalte}
+\subsection{Zugriff auf Datenbankinhalte}\label{zugriff_datenbank}
 
 \section{Realisierung der Anwendung in Unity}
 Den generellen Aufbau einer Unity-Anwendung haben wir bereits im Kapitel \ref{aufbau_unity_app} erläutert.
@@ -174,4 +174,51 @@ Insgesamt besteht die Applikation aus 8 Szenen. Angefangen mit der Menüszene, v
 Der Spiel- und der Informationsteil setzen sich wiederum aus eigenen Szenen zusammensetzen, zu welchen in den nächsten beiden Abschnitten mehr Informationen folgen. 
 
 \subsection{Informationsbereich}
+%aus welchen Szenen besteht der Teil
+Der Informationsteil besteht aus vier Einzelszenen. 
+In den ersten beiden wählt der Nutzer einen Kontinent und dann ein Land über das er etwas erfahren möchte.
+Daraufhin folgt eine Zwischenszene, welche als Vorschau für das gewählte Land dient und danach startet die eigentliche Informationsszene. 
+
+Um den ganzen Bereich Dynamisch zu halten, befinden sich in den Szenen nur Dummyobjekte, welche noch nicht mit Texten befüllt sind. Das heißt, dass beispielsweise die Kontinentauswahl vorerst nur leere Buttons und die Informationsszene leere Informationsfelder enthält.
+Durch die in Abschnitt \ref{zugriff_datenbank} beschriebene Datenbankschnittstelle, kommt nun beim Laden dieser Szenen der Inhalt hinzu. 
+Die leeren Auswahlbuttons in der Kontinent- und der Länderszene werden mit Texten und Farben befüllt. Und die leeren Informationsfelder werden mit hilfreichen Fakten beschrieben.
+
+Anhand der Informationsszene kann man dies sehr gut veranschaulichen. 
+Beim tippen auf eines der wählbaren Länder wird das Behaviour-Script der aktuellen Szene aufgerufen, in dem sich ein onClick-Event befindet. 
+In diesem wird der Inhalt des angeklickten Objekts ausgelesen und zwischengespeichert. Nun kann er als Parameter an die Datenbankfunktion weitergereicht werden, welche für das Laden der Informationen eines Landes zuständig ist. 
+Die daraus resultierenden Daten stehen nun in der darauffolgenden Szene in Form einer Liste zur Verfügung.
+Die darauffolgende Szene ist nun die Informationsszene. Deren leere Informationsfelder bestehen aus mehreren GameObjects.
+Aus dem Hintergrundbild welches als Container der Informationen dient und aus dem eigentliche Textobjekt.
+Beim Laden dieser Szene wird jedes mal eine Funktion ausgeführt, welche die vorher erlangten Daten verarbeitet.
+Es wird mithilfe einer Schleife über die zwischengespeicherten Informationstexte iteriert, und für jeden Textblock in der Szene wird das jeweilige Textattribut ersetzt.
+
 \subsection{Quizbereich}
+Ein sehr ähnliches Grundprinzip wurde bei der Umsetzung der Quizszene verfolgt.
+Wie auf Abbildung \ref{fig:quizscene} zu sehen, wurde ebenfalls die Benutzeroberfläche mit GameObjects vormodelliert und dessen Textinhalte bestehen noch aus Platzhalterwerten.
+
+\begin{figure} [h]
+\centering
+\includegraphics[width=14cm]{quiz_scene.PNG}
+\caption{Initialer Status der Quizszene}
+\label{fig:quizscene}
+\end{figure}
+
+Beim initialen Laden der Szene benötigen wir zu aller erst die Frage- und Antwortdaten des jeweiligen Landes aus der Datenbank.
+Dafür werden wieder Methoden aus der Datenbankschnittstelle, mit dem Übergabeparameter des angeklickten Landes aufgerufen. 
+Zuerst laden wir alle Fragen zu dem Land und daraufhin alle Antwortmöglichkeiten zu jeder Frage. 
+Die Antwortmöglichkeiten werden an das generierte Frageobjekt angehängt und so entsteht eine Liste aus vollständig zusammengesetzten Frageentitäten.
+Diese Liste wird nun innerhalb der Quizszene abgespeichert und kann jetzt wie im vorher beschriebenen Informationsteil zum Befüllen der Szene genutzt werden.
+
+Hierfür benötigen wir ein C\#-Script, welches das Verhalten der gesamten Quizszene kontrolliert.
+Dieses liegt als eigenes GameObject innerhalb der Szene und hält Referenzen auf die in der Szene liegenden GameObjects.
+Wir referenzieren alle UI-Elemente die wir zum Laden des Quiz benötigen.
+Dies sind der Fragetext, der Text des aktuellen Landes und die vier Buttons der Auswahlmöglichkeiten.
+
+Nun benötigen wir Logik, die über die vorhandenen Fragen iteriert und für jedes Frageobjekt die UI-Texte neu befüllt. Das geschieht innerhalb einer Methode im Script, welche für jede Frage erneut aufgerufen wird. 
+Mittels einer Zählervariable weiß sie, welche Frage gerade aktiv ist und befüllt die Szenenoberfläche mit deren Daten.
+Hierfür sind die referenzierten GameObjects notwendig, da über sie die Platzhaltertexte überschrieben werden können. 
+
+Damit sich die Reihenfolge der Antwortmöglichkeiten nicht bei jedem Quizdurchlauf wiederholt, mischen wir sie vorher durch. 
+Nun müssen wir den Buttons noch onClick-Funktionalität geben. 
+Ist eine Antwortmöglichkeit mit dem flag für \textquote{isCorrectAnswer} versehen, zählt ihr onClickListener einen Zähler hoch und ruft anschließend die Initialisierung der nächsten Frage auf. 
+Falls nicht bleibt der Zähler gleich und es wird ebenfalls die nächste Frage geladen.
