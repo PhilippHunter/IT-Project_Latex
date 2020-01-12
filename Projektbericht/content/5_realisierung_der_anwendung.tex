@@ -163,8 +163,45 @@ Das beschriebene \textquote{DefaultTrackable-EventHandler}-Skript kann nach Beli
 In unserem Fall wurde das \textquote{OnTrackable-Found}-Event so überschrieben, dass zusätzlich zu dem 3D Objekt noch zwei Buttons angezeigt werden, mit welchen der User interagieren kann.
 
 \section{Verwaltung der Daten}
+Im Abschnitt \ref{datenhaltung und -bereitstellung} wurde bereits das geplante Vorgehen für die Erstellung und Verwaltung einer Datenbank mit \textquote{SQLite} erläutert. Der folgende Absatz beschreibt nun das resultierende Datenbankmodell, sowie die Interaktion der Applikation mit den gespeicherten Informationen.
 \subsection{Datenbankentwurf}\label{datenbankentwurf}
+Aus der Planung haben sich insgesamt fünf Tabellen entwickelt. Die Tabellen \textit{Information}, \textit{Question} und \textit{Answer} dienen hauptsächlich der Speicherung von austauschbaren Inhalten für den Informations- und Lernteil von TraWo. Hier liegen die Informationen, Fragen und Antworten, auf die der Spieler bei der Nutzung der App trifft. Die Tabellen \textit{Country} und \textit{Continent} sind eher als Zuweisungstabellen zu betrachten und spielen für die Codierung der Spiels eine große Rolle.
+
+\begin{figure} [h]
+\centering
+\includegraphics[width=12cm]{Datenbankentwurf.jpg}
+\caption{Datenbankentwurf}
+\label{fig:db_model}
+\end{figure}
+
+Die Grafik \ref{fig:db_model} stellt das Datenbankmodell in der Martin-Notation dar. Die, auch Krähenfußnotation genannte, Darstellung zu \textit{Entity-Relationship}-Modellen eignet sich, neben Alternativen wie der Chen-Notation, um eine visuelle Repräsentation von Datenbankentwürfen darzustellen. 
+
+Hierbei sollen die semantischen Zusammenhänge zwischen einzelnen Tabellen in Form von Entitäten aufgezeigt werden, die als Rechtecke abgebildet sind. Neben dem Namen des Entitätstypen, enthalten sie noch Attribute, welche die Spaltennamen darstellen. Fremdschlüssel sind als Verweis auf andere Tabellen in Form von referenzierten IDs ebenfalls enthalten. Die Beziehungen der Entitäten stellen die Verbindungslinien dar. Diese geben gleichzeitig über Symbole an den Enden Aufschluss über die Kardinalität der Entität in der gegebenen Relation. Ein perpendikular zur Verbindungslinie verlaufender Strich stehet für \textquote{eins}, der namensgebende Krähenfuß steht für \textquote{mehrere}.
+
+Die im Diagramm gezeigten Beziehungen Beziehungen lassen sich nun wie folgt lesen:
+\begin{itemize}
+\item Ein Land enthält mehrere Informationen
+\item Ein Land enthält mehrere Fragen
+\item Ein Kontinent enthält mehrere Länder
+\item Eine Frage enthält mehrere Antworten
+\end{itemize}
+
+Die Attribute bestehen pro Eintrag zunächst immer aus einer eindeutigen ID. Tabellen mit apprelevanten Inhalten besitzen einen Text, wo der zugehörige Content gespeichert ist. Zuweisungstabellen besitzen einen Namen. Steht die Tabelle in einer 1:n-Beziehung, so hat die n-seitige Tabelle eine Referenz auf die konkrete, ihr zugehörige Instanz. Beispielsweise hat eine Antwort immer eine passende \textit{Question\_ID}, damit sie der passenden Frage zugeordnet werden kann. Zuletzt besitzen drei Tabellen einen boolschen-Wert, der wahr oder falsch sein kann. Für die Antworten lässt sich damit bestimmen, ob eine im Quiz angezeigte Antwort richtig oder Falsch ist. Für die Länder und Kontinente wird er als Zustandsindikator verwendet. Somit lassen könnte man kennzeichnen, ob für ein Land alle Quizze gelöst wurden, beziehungsweise ob ein Kontinent freigeschaltet und somit spielbar ist.
+
+Das Prinzip ähnelt einem UML-Diagramm für Softwarearchitekturen aus der Softwareentwicklung. Zum einen kann das die Lesbarkeit für alle beteiligten Entwickler erhöhen, selbst wenn sie ansonsten keinen Bezug zu der Datenbankentwicklung hätten, zum anderen kann es sich auch als ein geeigneter Bauplan für die grundlegende Klassenstruktur eines Projektes eignen. Da wir unseren Datenbankentwurf fertig gestellt hatten, bevor wir mit der Ausimplementierung des Codes angefangen haben, ist uns dieser \textit{Model-First Approach} sehr entgegen gekommen. Im nachfolgenden Abschnitt wird auf dieses Thema näher eingegangen.
+
 \subsection{Zugriff auf Datenbankinhalte}\label{zugriff_datenbank}
+Unity ist durch Nutzung der Mono.Data.SQLite.dll in der Lage, SQlite-Befehle auszuführen. Dadurch lassen sich Methoden schreiben, die bei Bedarf mit einer Datenbank interagieren.
+
+Jede dieser Methoden braucht dabei eine Datenbankverbindung und einen ausführbaren SQLite-Befehl. Da sich die Verbindung immer auf die selbe Datenbank bezieht, ist sie als ein konstanter String mit einem relativen Systempfad festgeschrieben. Jeder Aufruf der Datenbank muss diese Verbindung öffnen, und nach Ende des Prozesses wieder schließen. Durch den relativen Pfad wird sicher gestellt, das die Kommunikation mit der Datenbank spezifisch für jedes individuelle Gerät ist. Der Befehl dagegen ist einzigartig für jede Funktion, und erfüllt einen bestimmen Zweck.
+
+Die meisten Methoden sind Lesefunktionen, und sollen somit Inhalte aus der Datenbank auslesen, damit die Anwendung diese verarbeiten kann. Beispielsweise sollen beim Start eines Quiz die möglichen Antworten geladen werden. Die aufgerufene Methode führt nun ein entsprechendes Skript aus und speichert das von der Datenbank kommende Ergebnis in einem SqliteDataReader-Objekt ab. Durch das Drüberiterieren des Objektes können die Daten konvertiert und weiterverarbeitet werden. Nach diesem Prinzip läuft so gut wie jeder Datenbankzugriff ab. Doch wie können die Daten konvertiert und Nutzbar gemacht werden?
+
+Basierend auf dem Datenbankmodell wurden entsprechende Entitäten im Unity-Skript angelegt. Dadurch hat jede Tabelle eine äquivalente C\#-Klasse mit allen dazugehörigen Attributen und Referenzen, die die Datenbankstruktur als Klassenstruktur widerspiegeln. Die beim auslesen gewonnenen Daten können somit als Objekte weitergereicht und verarbeitet werden. 
+
+Da es sich im gegebenen Modell um eine relativ einfache Struktur handelt, wurde auf die Nutzung von Frameworks wie \textquote{Entity-Framework}. Mit der Hilfe von solchen Frameworks, könnte man automatisiert nach dem \textit{Model-First} bzw. \textit{Code-First Approach} passende C\#-Klassen bzw. eine passende Datenbankstruktur erzeugen lassen. Die manuelle Herangehensweise ist allerdings ressourcensparender und gestaltet sich bei kleineren Projekten in der Regel einfacher und übersichtlicher.
+
+Neben den Lesemethoden, wird beim Start von TraWo einmalig ein SQL-Skript zum erzeugen und befüllen der eigentlichen Datenbank mit festgeschriebenem Inhalt nach dem obigen Modell. Die Datenbank dann lokal auf dem Anwendungsgerät in einer .db-Datei gespeichert und ist zugriffsbereit. 
 
 \section{Realisierung der Anwendung in Unity}
 Den generellen Aufbau einer Unity-Anwendung haben wir bereits im Kapitel \ref{aufbau_unity_app} erläutert.
