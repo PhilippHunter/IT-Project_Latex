@@ -199,7 +199,7 @@ Die meisten Methoden sind Lesefunktionen, und sollen somit Inhalte aus der Daten
 
 Basierend auf dem Datenbankmodell wurden entsprechende Entitäten im Unity-Skript angelegt. Dadurch hat jede Tabelle eine äquivalente C\#-Klasse mit allen dazugehörigen Attributen und Referenzen, die die Datenbankstruktur als Klassenstruktur widerspiegeln. Die beim auslesen gewonnenen Daten können somit als Objekte weitergereicht und verarbeitet werden. 
 
-Da es sich im gegebenen Modell um eine relativ einfache Struktur handelt, wurde auf die Nutzung von Frameworks wie \textquote{Entity-Framework}. Mit der Hilfe von solchen Frameworks, könnte man automatisiert nach dem \textit{Model-First} bzw. \textit{Code-First Approach} passende C\#-Klassen bzw. eine passende Datenbankstruktur erzeugen lassen. Die manuelle Herangehensweise ist allerdings ressourcensparender und gestaltet sich bei kleineren Projekten in der Regel einfacher und übersichtlicher.
+Da es sich im gegebenen Modell um eine relativ einfache Struktur handelt, wurde auf die Nutzung von Frameworks wie \textquote{Entity-Framework} verzichtet. Mit der Hilfe von solchen Frameworks, könnte man automatisiert nach dem \textit{Model-First} bzw. \textit{Code-First Approach} passende C\#-Klassen bzw. eine passende Datenbankstruktur erzeugen lassen. Die manuelle Herangehensweise ist allerdings ressourcensparender und gestaltet sich bei kleineren Projekten in der Regel einfacher und übersichtlicher.
 
 Neben den Lesemethoden, wird beim Start von TraWo einmalig ein SQL-Skript zum erzeugen und befüllen der eigentlichen Datenbank mit festgeschriebenem Inhalt nach dem obigen Modell. Die Datenbank dann lokal auf dem Anwendungsgerät in einer .db-Datei gespeichert und ist zugriffsbereit. 
 
