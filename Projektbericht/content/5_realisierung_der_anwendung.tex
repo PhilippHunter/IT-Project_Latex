@@ -1,29 +1,29 @@
 \chapter{Realisierung}\label{ch:realisierung_der_anwendung}
-In den nachfolgenden Abschnitten werden alle für die Anwendung wichtigen Aspekte und deren Umsetzung erläutert. 
+In den nachfolgenden Abschnitten werden alle für die Implementierung wichtigen technischen Aspekte und deren Umsetzung erläutert. Es wird einen Einblick in die Arbeitsweise mit dem AR-Framework Vuforia, im Zusammenspiel mit dem Rendern von 3D Objekten gegeben. Des Weiteren wird die interne Datenhaltung beschrieben, sowie die Umsetzung einzelnen Szenen in Unity.
 
 \section{Einbindung der Mustererkennung}\label{einbindung_mustererkennung}
-In Abschnitt \ref{mustererkennung_vuforia} haben wir uns bereits mit der internen Funktionsweise des Augmented Reality Frameworks \textquote{Vuforia} beschäftigt. 
-Damit wir dessen vollen Umfang in der Unity-Projektumgebung nutzen können, mussten wir das entsprechende Vuforia Software Development Kit einbinden.
-Es beinhaltet im wesentlichen alle Grundbausteine für die Entwicklung einer Augmented Reality App und stellt diese in Form von Unity GameObjects bereit. 
-Dadurch sind sie genau wie herkömmliche GameObjects nutzbar.
-Sie können ganz einfach in ein bestehendes Unity-Projekt integriert werden und dieses erweitern.
+In Abschnitt \ref{mustererkennung_vuforia} wurde bereits näher die internen Funktionsweise des Augmented Reality Frameworks \textquote{Vuforia} erklärt. 
+Um dessen vollen Umfang in der Unity-Projektumgebung nutzen zu können, musste das entsprechende Vuforia Software Development Kit eingebunden werden.
+Es beinhaltet im Wesentlichen alle Grundbausteine für die Entwicklung einer Augmented Reality App und stellt diese in Form von Unity GameObjects (vgl. Abschnitt \ref{aufbau_unity_app}) bereit. 
+Dadurch sind sie genau wie herkömmliche GameObjects nutzbar und können einfach in ein bestehendes Unity-Projekt integriert werden, um dieses zu erweitern.
 
-Beispiele für ein paar der Bausteine wären zum einen die AR Camera. 
-Sie beinhaltet Logik um die Hauptkamera des ausführenden Gerätes anzusteuern. Die Szene in der die Kamera platziert wurde, wird nun in das Kamerabild der realen Welt projiziert.
+Ein Beispiel für einen solchen Baustein ist die AR Camera. 
+Sie beinhaltet Logik, um die Hauptkamera des ausführenden Gerätes anzusteuern. 
+Die Szene in der die Kamera platziert wurde, wird nun in das Kamerabild der realen Welt projiziert.
 Dieser Baustein ist essentiell für die Erstellung einer Augmented Reality App. 
 
-Auf einen Weiteren essentiellen Baustein aus der Vuforia SDK wird in den nachfolgenden Unterabschnitten \ref{image_targets} und \ref{integration_image_targets} eingegangen. 
+Auf einen weiteren essentiellen Baustein aus der Vuforia SDK wird in den nachfolgenden Unterabschnitten \ref{image_targets} und \ref{integration_image_targets} eingegangen. 
 
 \subsection{Image Targets}\label{image_targets}
 Da wir uns in der Anwendung für die markerbasierte Variante der Augmented Reality entschieden haben, benötigen wir hierzu die passenden Marker. 
-Wie bereits in Abschnitt \ref{mustererkennung_vuforia} beschrieben, bietet Vuforia hier die Möglichkeit eigene Image Targets zu verwenden. 
+Wie bereits in Abschnitt \ref{mustererkennung_vuforia} beschrieben, bietet Vuforia hier die Möglichkeit, eigene Image Targets zu verwenden. 
 Da diese innerhalb der Anwendung möglichst gut erkannt werden sollen, müssen bei der Wahl der Bilder einige Qualitätskriterien beachtet werden.
 
-Eines dieser Kriterien sind die Ecken und Kanten im Bild, welche durch die Featureextraktion beim hochladen des Bildes berücksichtigt werden. 
-Jede scharfe Ecke und Kante wird als Feature abgespeichert und dient später, bei der Bilderkennung innerhalb der Anwendung als Vergleichsmerkmal. 
+Eines dieser Kriterien sind die Ecken und Kanten im Bild, welche durch die Featureextraktion beim Hochladen des Bildes berücksichtigt werden. 
+Jede scharfe Ecke und Kante wird als Feature abgespeichert und dient später bei der Bilderkennung innerhalb der Anwendung als Vergleichsmerkmal. 
 Je mehr dieser markanten Punkte im Bild vorhanden sind, desto leichter fällt es der Vuforia Engine das Image Target im Kamerabild der AR-Anwendung zu identifizieren.
 
-Um sicherzugehen, dass aus dem gewählten Image Target viele Features extrahiert werden können, muss das Bild hohe lokale Kontraste besitzen. Das heißt es muss genügend Stellen geben, an denen sehr helle Pixel neben sehr dunklen liegen. 
+Um sicherzugehen, dass aus dem gewählten Image Target viele Features extrahiert werden können, sollte das Bild hohe lokale Kontraste besitzen. Das heißt, es sollte ausreichen viele Stellen geben, an denen sehr helle Pixel neben sehr dunklen liegen. 
 Hiermit ergeben sich ausgeprägte Farbunterschiede und somit schärfere Ecken und Kanten, welche als potentielle Features in Frage kommen.
 
 \begin{figure} [h]
@@ -33,40 +33,40 @@ Hiermit ergeben sich ausgeprägte Farbunterschiede und somit schärfere Ecken un
 \label{fig:image_targets}
 \end{figure}
 
-In der Abbildung \ref{fig:image_targets} sind die finalen Image Targets der beschriebenen Anwendung zu sehen.
+In Abbildung \ref{fig:image_targets} sind die finalen Image Targets der beschriebenen Anwendung zu sehen.
 Die Grundform der Targets stellt die heutzutage sehr häufig genutzte Form des Standortsymbols dar.
-Wir wählten die Form aufgrund ihrer Intuitivität im Anbetracht der gesamten Thematik der Anwendung.
-Diese werden in der Praxis auf einem Globus platziert und jedes der Targets repräsentiert ein Land.
-Um die Verbindung zu dem jeweiligem Land erkenntlich zu machen, bauten wir die Flagge des Landes mit in das Standortsymbol ein. 
+Wir wählten die Form um die Erdkundethematik der Anwendung zu unterstreichen.
+Diese werden in der Praxis auf einem Globus platziert und jedes Target repräsentiert ein Land.
+Um die Verbindung zu dem jeweiligem Land erkenntlich zu machen, ist Flagge des Landes in das Standortsymbol integriert. 
 Somit ist jedes Image Target einzigartig und lässt sich von den anderen unterscheiden. 
-Der Nutzer der Anwendung kann jetzt erkennen, welches Image Target zu welchem Land gehört und gleichzeitig kann er sich die Flaggen der Länder einprägen. 
+Der Nutzer der Anwendung kann jetzt erkennen, welches Image Target zu welchem Land gehört und kann sich gleichzeitig die Flaggen der Länder einprägen. 
 
-Nun sind zwar alle Targets einzigartig und können in manchen Fällen sehr gut unterschieden werden, jedoch ist das noch nicht genug um bei der Targeterkennung befriedigende Ergebnisse zu erhalten. 
+Nun sind zwar alle Targets einzigartig und können in manchen Fällen sehr gut unterschieden werden, jedoch ist das noch nicht ausreichend um bei der Targeterkennung befriedigende Ergebnisse zu erhalten. 
 Bei der Merkmalsextraktion werden die Bilder in Graustufen umgewandelt und verlieren somit jegliche Farbinformationen. Dies kann beispielsweise bei den Flaggen von Deutschland und den Niederlanden zu Schwierigkeiten in der Unterscheidung führen, da sie aus den exakt gleichen Formen bestehen. 
-Die Ecken- und Kantenmerkmale wären damit exakt die selben. 
-Um dieses Problem zu lösen hinterlegten wir jede Flagge mit einem individuellem QR-Code. Dieser ist leicht transparent, bringt aber dennoch mehr Kontrast in das Bild. 
+Die Ecken- und Kantenmerkmale wären damit sehr ähnlich. 
+Um dieses Problem zu lösen, hinterlegten wir jede Flagge mit einem individuellem QR-Code. 
+Dieser ist leicht transparent, bringt aber dennoch mehr Kontrast in das Bild. 
 Somit können selbst aus den einfach geformten Flaggen genügend eindeutige Merkmale erzeugt werden.
 
 Diese Art der Image Targets resultiert in der Vuforia Engine in einer Fünf-Sterne Erkennungsrate.
 
 \subsection{Integration der Image Targets}\label{integration_image_targets}
-Nachdem nun alle fertigen Image Targets in die Vuforia-Weboberfläche geladen wurden, müssen diese ihren Weg in die Anwendungsumgebung finden.
+Nachdem nun alle fertigen Image Targets über das in Abschnitt \ref{mustererkennung_vuforia} beschriebene Target Management System geladen wurden, müssen diese in die Anwendungsumgebung integriert werden.
 Hierzu wird aus der Weboberfläche eine Datenbank erzeugt, die alle Targets enthält. 
-Anschließend wird diese als \textquote{.unitypackage}-Datei heruntergeladen und kann ganz einfach in das bestehende Unityprojekt importiert werden.
+Anschließend wird sie als \textquote{.unitypackage}-Datei heruntergeladen und kann in das bestehende Unityprojekt importiert werden.
 
-Um nun die einzelnen Image Targets innerhalb der Anwendung nutzbar zu machen, erstellten wir zunächst eine dedizierte Szene. 
+Um nun die einzelnen Image Targets innerhalb der Anwendung nutzbar zu machen, wurde zunächst eine dedizierte Szene erstellt. 
 In dieser Szene befindet sich zuerst einmal die AR Camera, welche in Abschnitt \ref{einbindung_mustererkennung} beschrieben ist. 
-Des Weiteren benötigen wir für jedes vorhandene Land das passende Target.
+Des Weiteren wird für jedes vorhandene Land das passende Target benötigt.
 Ein Image Target wird in Form eines GameObjects in die Szene geladen.
-Es ist ein spezieller Typ von GameObjects, welcher von der Vuforia-SDK mitgebracht wird.
-Dieser Typ enthält bereits vordefinierte Logik in Form von Komponenten. 
-Zum Beispiel die Scriptkomponente \textquote{Image Target Behaviour}, welche die Kommunikation mit der Image Target Datenbank regelt. 
-Sie beitet die Möglichkeit zwischen allen importierten Datenbanken und den darin enthaltenen Image Targets zu wählen.
+Es ist ein spezieller Typ von GameObject, welcher von der Vuforia-SDK mitgeliefert wird und bereits vordefinierte Logik in Form von Komponenten enthält.
+Ein Beispiel hierfür ist die Scriptkomponente \textquote{Image Target Behaviour}, welche die Kommunikation mit der Image Target Datenbank regelt. 
+Sie bietet die Möglichkeit, zwischen allen importierten Datenbanken und den darin enthaltenen Image Targets zu wählen.
 Wählt man jetzt beim ersten GameObject das Target des Landes Indien, so erscheint an der Stelle des vorher leeren Objekts, das erstellte Image Target für genau dieses Land.
-Dies müssen wir nun für alle restlichen Länder wiederholen, damit alle in der Szene enthalten sind.
+Dieser Vorgang muss nun für alle restlichen Länder wiederholen, damit alle in der Szene enthalten sind.
 
 Wenn nun die fertige Szene gestartet wird, öffnet sich zunächst die Kamera des ausführenden Geräts.
-Im Hintergrund wird das Kamerabild ständig untersucht und geprüft, ob sich eines der in der Szene liegenden Image Targets im Sichtfeld befindet. Was daraufhin passiert wird in Abschnitt \ref{einbindung_3D_objekte} beschrieben.
+Im Hintergrund wird das Kamerabild ständig untersucht und geprüft, ob sich eines der in der Szene liegenden Image Targets im Sichtfeld befindet. Im Falle einer Bilderkennung können unterschiedliche Aktionen ausgeführt werden, welche in Abschnitt \ref{einbindung_3D_objekte} genauer beschrieben werden.
 
 \section{Verwendung von 3D Objekten}\label{verwendung_3d_objekte}
 Die in der Anwendung verwendeten 3D Objekte liegen im \textquote{object}-Format vor, welches durch die Dateiendung \textquote{.obj} gekennzeichnet ist. 
@@ -167,34 +167,57 @@ In unserem Fall wurde das \textquote{OnTrackable-Found}-Event so überschrieben,
 \subsection{Zugriff auf Datenbankinhalte}\label{zugriff_datenbank}
 
 \section{Realisierung der Anwendung in Unity}
-Den generellen Aufbau einer Unity-Anwendung haben wir bereits im Kapitel \ref{aufbau_unity_app} erläutert.
+Im Abschnitt \ref{aufbau_unity_app} des Berichts, wurde bereits der generelle Aufbau einer Unity-Anwendung erläutert.
 Wie unsere Anwendung nun aufgegliedert ist wird im nachfolgenden Teil behandelt.
 
-Insgesamt besteht die Applikation aus 8 Szenen. Angefangen mit der Menüszene, von der aus man entweder in die Onboarding-Szene für das Tutorial, den Spiel- oder den Informationsteil gelangt. 
+Insgesamt besteht die Applikation aus acht Szenen, welche in Abschnitt \ref{prototyp} vorgestellt wurden. Angefangen mit der Menüszene, von der aus man entweder in die Onboarding-Szene für das Tutorial, den Spiel- oder den Informationsteil gelangt. 
 Der Spiel- und der Informationsteil setzen sich wiederum aus eigenen Szenen zusammensetzen, zu welchen in den nächsten beiden Abschnitten mehr Informationen folgen. 
+Die Abbildung \ref{fig:scenegraph} gibt einen gesamten Überblick über die vorhandenen Szenen und deren Übergänge.
+
+\begin{figure} [h]
+\centering
+\includegraphics[width=14cm]{Szenenübersicht.PNG}
+\caption{Szenengraph der gesamten Anwendung}
+\label{fig:scenegraph}
+\end{figure}
+
+Jede Szene besteht aus verschiedenen UI-Elementen wie beispielsweise Buttons und Textflächen. Je nachdem ob diese mit dynamischer Interaktivität versehen sind, besitzen sie ihr eigenes C\#-Script, welches sich um individuelle Anpassungen kümmert.
 
 \subsection{Informationsbereich}
-%aus welchen Szenen besteht der Teil
 Der Informationsteil besteht aus vier Einzelszenen. 
 In den ersten beiden wählt der Nutzer einen Kontinent und dann ein Land über das er etwas erfahren möchte.
 Daraufhin folgt eine Zwischenszene, welche als Vorschau für das gewählte Land dient und danach startet die eigentliche Informationsszene. 
 
-Um den ganzen Bereich Dynamisch zu halten, befinden sich in den Szenen nur Dummyobjekte, welche noch nicht mit Texten befüllt sind. Das heißt, dass beispielsweise die Kontinentauswahl vorerst nur leere Buttons und die Informationsszene leere Informationsfelder enthält.
-Durch die in Abschnitt \ref{zugriff_datenbank} beschriebene Datenbankschnittstelle, kommt nun beim Laden dieser Szenen der Inhalt hinzu. 
-Die leeren Auswahlbuttons in der Kontinent- und der Länderszene werden mit Texten und Farben befüllt. Und die leeren Informationsfelder werden mit hilfreichen Fakten beschrieben.
+Um den ganzen Bereich dynamisch zu halten, befinden sich in den Szenen nur Dummyobjekte, welche noch nicht mit Texten befüllt sind. Das heißt, dass beispielsweise die Kontinentauswahl vorerst nur leere Buttons und die Informationsszene leere Informationsfelder enthält.
+Durch die in Abschnitt \ref{zugriff_datenbank} beschriebene Datenbankschnittstelle, werden diese nun beim Laden der Szene mit Inhalt befüllt. 
+Außerdem werden die leeren Auswahlbuttons in der Kontinent- und der Länderszene, dem Styleguide entsprechend unterschiedlich eingefärbt und die leeren Informationsfelder werden mit hilfreichen Fakten beschrieben.
+Dies wird im Folgenden am Beispiel der Informationsszene veranschaulicht.
 
-Anhand der Informationsszene kann man dies sehr gut veranschaulichen. 
-Beim tippen auf eines der wählbaren Länder wird das Behaviour-Script der aktuellen Szene aufgerufen, in dem sich ein onClick-Event befindet. 
+Zunächst werfen wir einen Blick auf die vorangehende Szene, in welcher ein Land gewählt wird. 
+Beim Tippen auf eines der wählbaren Länder wird das \textquote{Behaviour-Script} dieser Szene aufgerufen, in dem sich ein \textquote{onClick-Event} befindet. 
 In diesem wird der Inhalt des angeklickten Objekts ausgelesen und zwischengespeichert. Nun kann er als Parameter an die Datenbankfunktion weitergereicht werden, welche für das Laden der Informationen eines Landes zuständig ist. 
-Die daraus resultierenden Daten stehen nun in der darauffolgenden Szene in Form einer Liste zur Verfügung.
-Die darauffolgende Szene ist nun die Informationsszene. Deren leere Informationsfelder bestehen aus mehreren GameObjects.
-Aus dem Hintergrundbild welches als Container der Informationen dient und aus dem eigentliche Textobjekt.
-Beim Laden dieser Szene wird jedes mal eine Funktion ausgeführt, welche die vorher erlangten Daten verarbeitet.
+Die daraus resultierenden Daten stehen nun in der darauffolgenden Informationsszene in Form einer Liste zur Verfügung.
+Beim Laden der Szene wird deren Behaviour-Script geladen und die darin enthaltene \textquote{Start-Methode} ausgeführt. Diese dient zur Initialisierung der Szene und verarbeitet die vorher erlangten Daten.
 Es wird mithilfe einer Schleife über die zwischengespeicherten Informationstexte iteriert, und für jeden Textblock in der Szene wird das jeweilige Textattribut ersetzt.
+Die GameObjects der Textblöcke für die einzelnen Informationen müssen hierfür vorher im Script referenziert werden, damit darauf zugegriffen werden kann.
+
+\begin{figure} [h]
+\centering
+\includegraphics[width=14cm]{Informationsszene.PNG}
+\caption{Initialer Status der Informationsszene}
+\label{fig:infoscene}
+\end{figure}
+Die genannten Informationstexte sind in einzelne Elemente aufgeteilt, welche sich innerhalb eines horizontal scrollbaren Containers befinden. 
+Es ist immer nur ein Informationselement sichtbar und mithilfe einer Wischgeste kann der Nutzer zur nächsten Information wechseln.
+Die in Abbildung \ref{fig:infoscene} erkennbare kleine Anzeige unterhalb des Informationsfeldes zeigt an, welches der fünf Informationsfelder gerade gezeigt wird.
+Diese Anzeige wird auch \textquote{Pagination} genannt, da sich die einzelnen Elemente wie scrollbare Seiten verhalten.
+Für die Scrollbox und die Pagination musste ein externes Unity Packet installiert und importiert werden, welches beide Funktionen in Form neuer GameObjects hinzufügt.
+Die Szenenhierarchie der Informationsszene besteht nun aus der Kamera, einem Szenenscript und einem UI-Container. 
+Innerhalb des Containers befinden sich die beiden eben genannten Komponenten, sowie ein Button um in die AR-Szene zu gelangen.
 
 \subsection{Quizbereich}
-Ein sehr ähnliches Grundprinzip wurde bei der Umsetzung der Quizszene verfolgt.
-Wie auf Abbildung \ref{fig:quizscene} zu sehen, wurde ebenfalls die Benutzeroberfläche mit GameObjects vormodelliert und dessen Textinhalte bestehen noch aus Platzhalterwerten.
+Ein ähnliches Grundprinzip wurde bei der Umsetzung der Quizszene verfolgt.
+Wie in Abbildung \ref{fig:quizscene} zu sehen, wurde die Benutzeroberfläche ebenfalls mit GameObjects vormodelliert, sodass deren Textinhalte aus Platzhalterwerten bestehen.
 
 \begin{figure} [h]
 \centering
@@ -203,22 +226,22 @@ Wie auf Abbildung \ref{fig:quizscene} zu sehen, wurde ebenfalls die Benutzerober
 \label{fig:quizscene}
 \end{figure}
 
-Beim initialen Laden der Szene benötigen wir zu aller erst die Frage- und Antwortdaten des jeweiligen Landes aus der Datenbank.
+Beim initialen Laden der Szene benötigen wir zuerst die Frage- und Antwortdaten des jeweiligen Landes aus der Datenbank.
 Dafür werden wieder Methoden aus der Datenbankschnittstelle, mit dem Übergabeparameter des angeklickten Landes aufgerufen. 
 Zuerst laden wir alle Fragen zu dem Land und daraufhin alle Antwortmöglichkeiten zu jeder Frage. 
-Die Antwortmöglichkeiten werden an das generierte Frageobjekt angehängt und so entsteht eine Liste aus vollständig zusammengesetzten Frageentitäten.
+Die Antwortmöglichkeiten werden an das generierte Frageobjekt angehängt, wodurch eine Liste aus vollständig zusammengesetzten Frageentitäten entsteht.
 Diese Liste wird nun innerhalb der Quizszene abgespeichert und kann jetzt wie im vorher beschriebenen Informationsteil zum Befüllen der Szene genutzt werden.
 
-Hierfür benötigen wir ein C\#-Script, welches das Verhalten der gesamten Quizszene kontrolliert.
-Dieses liegt als eigenes GameObject innerhalb der Szene und hält Referenzen auf die in der Szene liegenden GameObjects.
-Wir referenzieren alle UI-Elemente die wir zum Laden des Quiz benötigen.
-Dies sind der Fragetext, der Text des aktuellen Landes und die vier Buttons der Auswahlmöglichkeiten.
+Hierfür wird ein C\#-Script benötigt, welches das Verhalten der gesamten Quizszene kontrolliert.
+Dieses liegt als eigenes GameObject innerhalb der Szene vor und hält Referenzen auf die in der Szene befindlichen GameObjects.
+Es werden die Folgenden benötigt: Der Fragetext, der Text des aktuellen Landes und die vier Buttons der Auswahlmöglichkeiten.
+Diese sind alle Objekte die zum Laden eines Quiz gebraucht werden.
 
-Nun benötigen wir Logik, die über die vorhandenen Fragen iteriert und für jedes Frageobjekt die UI-Texte neu befüllt. Das geschieht innerhalb einer Methode im Script, welche für jede Frage erneut aufgerufen wird. 
+Nun wird Logik benötigt, die über die vorhandenen Fragen iteriert und für jedes Frageobjekt die UI-Texte neu befüllt. Das geschieht innerhalb einer Methode im Script, welche für jede Frage erneut aufgerufen wird. 
 Mittels einer Zählervariable weiß sie, welche Frage gerade aktiv ist und befüllt die Szenenoberfläche mit deren Daten.
-Hierfür sind die referenzierten GameObjects notwendig, da über sie die Platzhaltertexte überschrieben werden können. 
+Hierfür sind die referenzierten GameObjects notwendig, mithilfe dieser die Platzhaltertexte überschrieben werden können. 
 
-Damit sich die Reihenfolge der Antwortmöglichkeiten nicht bei jedem Quizdurchlauf wiederholt, mischen wir sie vorher durch. 
-Nun müssen wir den Buttons noch onClick-Funktionalität geben. 
-Ist eine Antwortmöglichkeit mit dem flag für \textquote{isCorrectAnswer} versehen, zählt ihr onClickListener einen Zähler hoch und ruft anschließend die Initialisierung der nächsten Frage auf. 
-Falls nicht bleibt der Zähler gleich und es wird ebenfalls die nächste Frage geladen.
+Damit sich die Reihenfolge der Antwortmöglichkeiten nicht bei jedem Quizdurchlauf wiederholt, werden sie vorher gemischt. 
+Nun müssen wir den Buttons noch \textquote{onClick-Funktionalität} geben. 
+Ist eine Antwortmöglichkeit mit dem flag für \textquote{isCorrectAnswer} versehen, zählt ihr \textquote{onClickListener} einen Zähler hoch und ruft anschließend die Initialisierung der nächsten Frage auf. 
+Falls nicht, bleibt der Zähler gleich und es wird ebenfalls die nächste Frage geladen.
