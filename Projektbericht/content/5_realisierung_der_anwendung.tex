@@ -86,7 +86,7 @@ Da dieser Zeitaufwand nicht in den zeitlichen Rahmen dieses IT Projektes gepasst
 \item https://free3d.com/
 \end{itemize}
 
-Wie bereits in Abschnitt \ref{projektziel} erwähnt, sollen die Länder, die in der App enthalten sind durch passende 3D Objekte repräsentiert werden, welche auf das erkannten Image Target eines Landes gerendert werden. 
+Wie bereits in Abschnitt \ref{projektziel} erwähnt, sollen die in der App enthaltenen Länder durch passende 3D Objekte repräsentiert werden, welche auf das erkannte Image Target eines Landes gerendert werden. 
 Die folgende Auflistung zeigt die gewählten 3D Objekte für ihre zugehörigen Länder, gegliedert in Kontinente. Diese sind bildlich auch im Anhang dargestellt.
 
 \textbf{3D Objekte für Afrika:}
@@ -154,13 +154,13 @@ Aus Grafik \ref{fig:elefant_wenig_polygone} geht hervor, dass sich die Gestalt d
 \subsection{Einbindung der 3D Objekte in Unity}\label{einbindung_3D_objekte}
 Der Zugriff auf die ausgewählten 3D Objekte innerhalb des Unity-Entwicklungsoberfläche, sowie der Applikation wird ermöglicht, indem die Objekte im Projektpfad als Ressourcen abgelegt werden, welche beim Bauen der Applikation auf das Endgerät mit übertragen werden. 
 
-Wie in Abschnitt, \ref{projektziel} beschrieben, soll ein 3D Objekt nur bei der Erkennung des ihm zugeordneten Landes angezeigt werden.
+Wie in Abschnitt \ref{projektziel} beschrieben, soll ein 3D Objekt nur bei der Erkennung des ihm zugeordneten Landes angezeigt werden.
 Um dies zu realisieren, werden die 3D Objekte in der Entwicklungsoberfläche als Kind-Objekte der in Abschnitt \ref{integration_image_targets} beschriebenen Image-Targets angelegt.
 Das Verhalten dieser Vuforia-Elemente wird durch das \textquote{DefaultTrackableEvent-Handler}-Skript bestimmt, welches den Elementen standardmäßig beigefügt ist. 
 Bei der Feuerung des \textquote{OnTrackableFound}-Events, das heißt der Erkennung eines Image-Targets, werden die diesem untergeordneten, renderbaren Kindelemente mithilfe der von Unity bereitgestellten \textquote{Renderer}-Klasse automatisch gerendert.
 
 Das beschriebene \textquote{DefaultTrackable-EventHandler}-Skript kann nach Belieben bearbeitet werden, um ein besonderes, durch den Benutzer gewünschtes Verhalten hervorzurufen.
-In unserem Fall wurde das \textquote{OnTrackable-Found}-Event so überschrieben, dass zusätzlich zu dem 3D Objekt noch zwei Buttons angezeigt werden, mit welchen der User interagieren kann.
+In unserem Fall wurde das \textquote{OnTrackable-Found}-Event so erweitert, dass zusätzlich zu dem 3D Objekt noch zwei Buttons angezeigt werden, mit welchen der User interagieren kann.
 
 \section{Verwaltung der Daten}
 Im Abschnitt \ref{datenhaltung und -bereitstellung} wurde bereits das geplante Vorgehen für die Erstellung und Verwaltung einer Datenbank mit \textquote{SQLite} erläutert. Der folgende Absatz beschreibt nun das resultierende Datenbankmodell, sowie die Interaktion der Applikation mit den gespeicherten Informationen.
