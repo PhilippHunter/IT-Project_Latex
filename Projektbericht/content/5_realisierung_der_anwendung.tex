@@ -1,5 +1,5 @@
 \chapter{Realisierung}\label{ch:realisierung_der_anwendung}
-In den nachfolgenden Abschnitten werden alle für die Implementierung wichtigen technischen Aspekte und deren Umsetzung erläutert. Es wird einen Einblick in die Arbeitsweise mit dem AR-Framework Vuforia, im Zusammenspiel mit dem Rendern von 3D Objekten gegeben. Des Weiteren wird die interne Datenhaltung beschrieben, sowie die Umsetzung einzelnen Szenen in Unity.
+In den nachfolgenden Abschnitten werden alle für die Implementierung wichtigen technischen Aspekte und deren Umsetzung erläutert. Es wird einen Einblick in die Arbeitsweise mit dem AR-Framework Vuforia im Zusammenspiel mit dem Rendern von 3D Objekten gegeben. Des Weiteren wird die interne Datenhaltung, sowie die Umsetzung einzelnen Szenen in Unity beschrieben.
 
 \section{Einbindung der Mustererkennung}\label{einbindung_mustererkennung}
 In Abschnitt \ref{mustererkennung_vuforia} wurde bereits näher die internen Funktionsweise des Augmented Reality Frameworks \textquote{Vuforia} erklärt. 
@@ -209,8 +209,8 @@ Neben den Lesemethoden, wird beim Start von TraWo einmalig ein SQL-Skript zum Er
 Im Abschnitt \ref{aufbau_unity_app} des Berichts, wurde bereits der generelle Aufbau einer Unity-Anwendung erläutert.
 Wie unsere Anwendung nun aufgegliedert ist wird im nachfolgenden Teil behandelt.
 
-Insgesamt besteht die Applikation aus acht Szenen, welche in Abschnitt \ref{prototyp} vorgestellt wurden. Angefangen mit der Menüszene, von der aus man entweder in die Onboarding-Szene für das Tutorial, den Spiel- oder den Informationsteil gelangt. 
-Der Spiel- und der Informationsteil setzen sich wiederum aus eigenen Szenen zusammensetzen, zu welchen in den nächsten beiden Abschnitten mehr Informationen folgen. 
+Insgesamt besteht die Applikation aus acht Szenen, welche in Abschnitt \ref{prototyp} in Form eines Flowcharts vorgestellt wurden. Angefangen mit der Menüszene, von der aus man entweder in die Onboarding-Szene für das Tutorial, den Spiel- oder den Informationsteil gelangt. 
+Der Spiel- und der Informationsteil setzen sich wiederum aus eigenen Szenen zusammen, zu welchen in den nächsten beiden Abschnitten mehr Informationen folgen. 
 Die Abbildung \ref{fig:scenegraph} gibt einen gesamten Überblick über die vorhandenen Szenen und deren Übergänge.
 
 \begin{figure} [h]
@@ -220,23 +220,24 @@ Die Abbildung \ref{fig:scenegraph} gibt einen gesamten Überblick über die vorh
 \label{fig:scenegraph}
 \end{figure}
 
-Jede Szene besteht aus verschiedenen UI-Elementen wie beispielsweise Buttons und Textflächen. Je nachdem ob diese mit dynamischer Interaktivität versehen sind, besitzen sie ihr eigenes C\#-Script, welches sich um individuelle Anpassungen kümmert.
+Jede Szene besteht aus verschiedenen UI-Elementen, wie beispielsweise Buttons und Textflächen. Je nachdem ob diese mit dynamischer Interaktivität versehen sind, besitzen sie ihr eigenes C\#-Script, welches sich um individuelle Anpassungen kümmert.
 
 \subsection{Informationsbereich}
 Der Informationsteil besteht aus vier Einzelszenen. 
-In den ersten beiden wählt der Nutzer einen Kontinent und dann ein Land über das er etwas erfahren möchte.
-Daraufhin folgt eine Zwischenszene, welche als Vorschau für das gewählte Land dient und danach startet die eigentliche Informationsszene. 
+In den ersten beiden wählt der Nutzer einen Kontinent und daraufhin ein Land, über das er etwas erfahren möchte.
+Anschließend folgt eine Zwischenszene, welche als Vorschau für das gewählte Land dient und danach startet die eigentliche Informationsszene. 
 
 Um den ganzen Bereich dynamisch zu halten, befinden sich in den Szenen nur Dummyobjekte, welche noch nicht mit Texten befüllt sind. Das heißt, dass beispielsweise die Kontinentauswahl vorerst nur leere Buttons und die Informationsszene leere Informationsfelder enthält.
-Durch die in Abschnitt \ref{zugriff_datenbank} beschriebene Datenbankschnittstelle, werden diese nun beim Laden der Szene mit Inhalt befüllt. 
-Außerdem werden die leeren Auswahlbuttons in der Kontinent- und der Länderszene, dem Styleguide entsprechend unterschiedlich eingefärbt und die leeren Informationsfelder werden mit hilfreichen Fakten beschrieben.
-Dies wird im Folgenden am Beispiel der Informationsszene veranschaulicht.
+Durch die in Abschnitt \ref{zugriff_datenbank} beschriebene Datenbankschnittstelle, werden diese nun beim Laden der Szene mit Inhalten befüllt. 
+In diesem Zuge werden die leeren Auswahlbuttons in der Kontinent- und der Länderszene, dem Styleguide entsprechend unterschiedlich eingefärbt. Und die leeren Informationsfelder werden mit hilfreichen Fakten beschrieben.
+Dies wird im Folgenden am Beispiel der Informationsszene verdeutlicht.
 
 Zunächst werfen wir einen Blick auf die vorangehende Szene, in welcher ein Land gewählt wird. 
 Beim Tippen auf eines der wählbaren Länder wird das \textquote{Behaviour-Script} dieser Szene aufgerufen, in dem sich ein \textquote{onClick-Event} befindet. 
-In diesem wird der Inhalt des angeklickten Objekts ausgelesen und zwischengespeichert. Nun kann er als Parameter an die Datenbankfunktion weitergereicht werden, welche für das Laden der Informationen eines Landes zuständig ist. 
+In diesem wird der Inhalt des angeklickten Objekts, also der Name des jeweiligen Landes, ausgelesen und zwischengespeichert. 
+Nun kann er als Parameter an die Datenbankfunktion weitergereicht werden, welche für das Laden der Informationen eines Landes zuständig ist. 
 Die daraus resultierenden Daten stehen nun in der darauffolgenden Informationsszene in Form einer Liste zur Verfügung.
-Beim Laden der Szene wird deren Behaviour-Script geladen und die darin enthaltene \textquote{Start-Methode} ausgeführt. Diese dient zur Initialisierung der Szene und verarbeitet die vorher erlangten Daten.
+Beim Laden der Szene wird deren Behaviour-Script geladen und die darin enthaltene \textquote{Start}-Methode ausgeführt. Diese dient zur Initialisierung der Szene und verarbeitet die vorher erlangten Daten.
 Es wird mithilfe einer Schleife über die zwischengespeicherten Informationstexte iteriert, und für jeden Textblock in der Szene wird das jeweilige Textattribut ersetzt.
 Die GameObjects der Textblöcke für die einzelnen Informationen müssen hierfür vorher im Script referenziert werden, damit darauf zugegriffen werden kann.
 
@@ -252,7 +253,7 @@ Die in Abbildung \ref{fig:infoscene} erkennbare kleine Anzeige unterhalb des Inf
 Diese Anzeige wird auch \textquote{Pagination} genannt, da sich die einzelnen Elemente wie scrollbare Seiten verhalten.
 Für die Scrollbox und die Pagination musste ein externes Unity Packet installiert und importiert werden, welches beide Funktionen in Form neuer GameObjects hinzufügt.
 Die Szenenhierarchie der Informationsszene besteht nun aus der Kamera, einem Szenenscript und einem UI-Container. 
-Innerhalb des Containers befinden sich die beiden eben genannten Komponenten, sowie ein Button um in die AR-Szene zu gelangen.
+Innerhalb des Containers befinden sich die beiden eben genannten Komponenten, sowie ein Button, um in die AR-Szene zu gelangen.
 
 \subsection{Quizbereich}
 Ein ähnliches Grundprinzip wurde bei der Umsetzung der Quizszene verfolgt.
@@ -266,21 +267,27 @@ Wie in Abbildung \ref{fig:quizscene} zu sehen, wurde die Benutzeroberfläche ebe
 \end{figure}
 
 Beim initialen Laden der Szene benötigen wir zuerst die Frage- und Antwortdaten des jeweiligen Landes aus der Datenbank.
-Dafür werden wieder Methoden aus der Datenbankschnittstelle, mit dem Übergabeparameter des angeklickten Landes aufgerufen. 
+Dafür werden erneut Methoden aus der Datenbankschnittstelle, mit dem Übergabeparameter des angeklickten Landes aufgerufen. 
 Zuerst laden wir alle Fragen zu dem Land und daraufhin alle Antwortmöglichkeiten zu jeder Frage. 
 Die Antwortmöglichkeiten werden an das generierte Frageobjekt angehängt, wodurch eine Liste aus vollständig zusammengesetzten Frageentitäten entsteht.
-Diese Liste wird nun innerhalb der Quizszene abgespeichert und kann jetzt wie im vorher beschriebenen Informationsteil zum Befüllen der Szene genutzt werden.
+Diese Liste wird nun innerhalb der Quizszene abgespeichert und kann jetzt, wie im vorher beschriebenen Informationsteil, zum Befüllen der Szene genutzt werden.
 
 Hierfür wird ein C\#-Script benötigt, welches das Verhalten der gesamten Quizszene kontrolliert.
 Dieses liegt als eigenes GameObject innerhalb der Szene vor und hält Referenzen auf die in der Szene befindlichen GameObjects.
 Es werden die Folgenden benötigt: Der Fragetext, der Text des aktuellen Landes und die vier Buttons der Auswahlmöglichkeiten.
-Diese sind alle Objekte die zum Laden eines Quiz gebraucht werden.
+Diese sind alle Objekte die zum Laden eines Quiz nötig sind.
 
 Nun wird Logik benötigt, die über die vorhandenen Fragen iteriert und für jedes Frageobjekt die UI-Texte neu befüllt. Das geschieht innerhalb einer Methode im Script, welche für jede Frage erneut aufgerufen wird. 
 Mittels einer Zählervariable weiß sie, welche Frage gerade aktiv ist und befüllt die Szenenoberfläche mit deren Daten.
-Hierfür sind die referenzierten GameObjects notwendig, mithilfe dieser die Platzhaltertexte überschrieben werden können. 
+Hierfür sind die referenzierten GameObjects notwendig, mithilfe derer die Platzhaltertexte überschrieben werden können. 
 
-Damit sich die Reihenfolge der Antwortmöglichkeiten nicht bei jedem Quizdurchlauf wiederholt, werden sie vorher gemischt. 
-Nun müssen wir den Buttons noch \textquote{onClick-Funktionalität} geben. 
-Ist eine Antwortmöglichkeit mit dem flag für \textquote{isCorrectAnswer} versehen, zählt ihr \textquote{onClickListener} einen Zähler hoch und ruft anschließend die Initialisierung der nächsten Frage auf. 
-Falls nicht, bleibt der Zähler gleich und es wird ebenfalls die nächste Frage geladen.
+Damit sich die Reihenfolge der Fragen und die der Antwortmöglichkeiten nicht bei jedem Quizdurchlauf wiederholt, werden sie vorher gemischt. 
+Nun müssen wir den Buttons noch \textquote{onClick}-Funktionalität geben. 
+Ist eine Antwortmöglichkeit mit dem Flag für \textquote{isCorrectAnswer} versehen, zählt ihr \textquote{onClickListener} einen weiteren Zähler hoch, welcher die korrekten Beantwortungen zählt und ruft anschließend die Initialisierung der nächsten Frage auf. 
+Falls nicht, bleibt dieser Zähler gleich und es wird ebenfalls die nächste Frage geladen.
+
+Nach Beantwortung aller Fragen, sollte die erstgenannte Zählervariable der Anzahl an Fragen entsprechen.
+Dies dient als Abbruchbedingung des rekursiven Methodenaufrufs zum Laden einer Frage.
+Nun wird ausgewertet ob der Nutzer alles richtig beantwortet hat und dementsprechend ein positiver oder ein negativer Feedback-Bildschirm angezeigt.
+Dieser informiert darüber ob das Quiz bestanden wurde, zeigt jedoch nicht explizit bei welchen Fragen es nicht geklappt hat.
+Von hieraus gelangt man nun durch einen Button wieder zurück zur Kameraansicht der AR-Szene.
