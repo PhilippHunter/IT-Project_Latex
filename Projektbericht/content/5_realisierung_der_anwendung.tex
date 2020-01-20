@@ -21,10 +21,10 @@ Da diese innerhalb der Anwendung möglichst gut erkannt werden sollen, müssen b
 
 Eines dieser Kriterien sind die Ecken und Kanten im Bild, welche durch die Featureextraktion beim Hochladen des Bildes berücksichtigt werden. 
 Jede scharfe Ecke und Kante wird als Feature abgespeichert und dient später bei der Bilderkennung innerhalb der Anwendung als Vergleichsmerkmal. 
-Je mehr dieser markanten Punkte im Bild vorhanden sind, desto leichter fällt es der Vuforia Engine das Image Target im Kamerabild der AR-Anwendung zu identifizieren.
+Je mehr dieser markanten Punkte im Bild vorhanden sind, desto leichter fällt es der Vuforia Engine das Image Target im Kamerabild der AR-Anwendung zu identifizieren (vgl. \cite{ImageTarget2018}).
 
 Um sicherzugehen, dass aus dem gewählten Image Target viele Features extrahiert werden können, sollte das Bild hohe lokale Kontraste besitzen. Das heißt, es sollte ausreichen viele Stellen geben, an denen sehr helle Pixel neben sehr dunklen liegen. 
-Hiermit ergeben sich ausgeprägte Farbunterschiede und somit schärfere Ecken und Kanten, welche als potentielle Features in Frage kommen.
+Hiermit ergeben sich ausgeprägte Farbunterschiede und somit schärfere Ecken und Kanten, welche als potentielle Features in Frage kommen (vgl. \cite{ImageTarget2018}).
 
 \begin{figure} [h]
 \centering
@@ -205,11 +205,13 @@ Da es sich im gegebenen Modell um eine relativ einfache Struktur handelt, wurde 
 
 Neben den Lesemethoden, wird beim Start von TraWo einmalig ein SQL-Skript zum Erzeugen und Befüllen der eigentlichen Datenbank mit festgeschriebenem Inhalt nach dem obigen Modell ausgeführt. Die Datenbank wird dann lokal auf dem Anwendungsgerät in einer .db-Datei gespeichert und ist zugriffsbereit. 
 
-\section{Realisierung der Anwendung in Unity}
+\section{Realisierung der Anwendung in Unity}\label{realisierung_unity}
 Im Abschnitt \ref{aufbau_unity_app} des Berichts, wurde bereits der generelle Aufbau einer Unity-Anwendung erläutert.
 Wie unsere Anwendung nun aufgegliedert ist wird im nachfolgenden Teil behandelt.
 
-Insgesamt besteht die Applikation aus acht Szenen, welche in Abschnitt \ref{prototyp} in Form eines Flowcharts vorgestellt wurden. Angefangen mit der Menüszene, von der aus man entweder in die Onboarding-Szene für das Tutorial, den Spiel- oder den Informationsteil gelangt. 
+Insgesamt besteht die Applikation aus neun Szenen, welche in Abschnitt \ref{prototyp} in Form eines Flowcharts vorgestellt wurden.
+Des weiteren findet sich in Abschnitt \ref{einblick} des Anhang ein Gesamtüberblick über alle finalen Szenen der Applikation.
+Angefangen mit der Menüszene, von der aus man entweder in die Onboarding-Szene für das Tutorial, den Spiel- oder den Informationsteil gelangt. 
 Der Spiel- und der Informationsteil setzen sich wiederum aus eigenen Szenen zusammen, zu welchen in den nächsten beiden Abschnitten mehr Informationen folgen. 
 Die Abbildung \ref{fig:scenegraph} gibt einen gesamten Überblick über die vorhandenen Szenen und deren Übergänge.
 
