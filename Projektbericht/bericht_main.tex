@@ -3,7 +3,7 @@
     a4paper,
     egregdoesnotlikesansseriftitles,
     toc=chapterentrywithdots,
-    twoside,openright,
+    oneside,
     titlepage,
     parskip=half,
     headings=normal,  % reduces heading size
@@ -130,12 +130,12 @@
 \setcounter{secnumdepth}{3}  % numerate subsections
 \setcounter{tocdepth}{2}  % ...but don't include them in toc
 
-\frontmatter
+%\frontmatter
 \include{cover}\cleardoublepage
 
 \tableofcontents
 
-\mainmatter
+%\mainmatter
 \include{content/1_einleitung}
 \include{content/2_projektbeschreibung}
 \include{content/3_entwurf}
@@ -147,7 +147,7 @@
 \appendix
 \include{content/Anhang}
 
-\backmatter
+%\backmatter
 \listoffigures
 \cleardoublepage
 
