@@ -2,7 +2,7 @@
 Der finale Stand der Applikation kann in zwei Komponenten unterteilt werden: Den Informationsbereich und den Augmented Realiy Bereich, welche beide über das Hauptmenü erreichbar sind.
 In Ersterem kann der Anwender einen Kontinent auswählen und sich anschließend in diesem für eines von drei enthaltenen Ländern entscheiden, zu dem er fünf Informationen gezeigt bekommt.
 Im Augmented Reality Bereich ist es möglich, definierte Bildmarker auf einem Globus zu erkennen und ein entsprechendes 3D Objekt, welches ein Land repräsentiert, auf diesen anzuzeigen zu lassen.
-Zu dem erkannten Land können nun Informationen eingesehen werden oder ein Quiz mit aktuell fünf Fragen gestartet werden. 
+Zu dem erkannten Land können nun Informationen eingesehen werden oder ein Quiz gestartet werden. 
 Bei der Informationsauswahl gelangt der Nutzer in den auch vom Hauptmenü aus erreichbaren Informationsbereich, wird jedoch in diesem Fall direkt zur Startseite für das Land geleitet, von welcher aus er Zugriff auf die Informationen zu diesem hat.
 Das Quiz besteht aus fünf Fragen zu dem jeweilig erkannten Land, die bei jedem Spiel in unterschiedlicher Reihenfolge angezeigt werden.
 Der Nutzer hat die Möglichkeit, von vier Antworten eine richtige auszuwählen und erhält nach Beendigung des Quiz ein Feedback zu seinem Ergebnis.
@@ -19,14 +19,14 @@ Datenbankinhalte, wie Fragen und Informationen sowie die erkennbaren Bildziele k
 Betrachtet man den Entwicklungsprozess der Anwendung, so lässt sich sagen, dass sich die Versionsverwaltung mit Git als teilweise problematisch erwiesen hat.
 Da Git keine von Unity unterstützte Versionsverwaltungssoftware ist, führen zeitgleiche Änderungen von Szenen zu Merge-Konflikten.
 Änderungen in den Szenen sind in einem Merge-Tool außerhalb von Unity schwer nachzuverfolgen, da die als \textquote{.unity}-Datei gespeicherten Szenen nicht gelesen werden können. 
-Um keine Änderungen zu verlieren, war es für uns deshalb nötig, uns gut abzusprechen und sich die lokalen Dateien häufig mit dem aktuellen Stand zu synchronisieren.
+Um keine Änderungen zu verlieren, war es für uns deshalb nötig, uns gut abzusprechen und die lokalen Dateien häufig mit dem aktuellen Stand zu synchronisieren.
 Da sich dieses Vorgehen als unproblematisch erwiesen hat, haben wir das Versionsverwaltungsprogramm nicht mehr während des Entwicklungsprozess geändert.
-Für ein neues Projekt, wäre es jedoch sinnvoll, darauf zu achten, eine von Unity unterstützte Versionsverwaltung, wie \textquote{Perforce} oder \textquote{Plastic SCM} zu verwenden, welche Änderungen an der gleichen Szene problemlos zusammenführen können.
+Für ein neues Projekt wäre es jedoch sinnvoll, darauf zu achten, eine von Unity unterstützte Versionsverwaltung, wie \textquote{Perforce} oder \textquote{Plastic SCM} zu verwenden, welche Änderungen an der gleichen Szene problemlos zusammenführen können.
 
 Außerdem haben wir feststellen können, dass Unity weniger für die Oberflächenentwicklung geeignet ist. 
 Obwohl das Programm die Möglichkeit bietet, Oberflächenelemente, wie Buttons oder Texte einzufügen, ist die Auswahl dieser nur auf sehr simple Elemente begrenzt.
 Eine gute Ergänzung für Benutzeroberflächen bietet der \textquote{AssetStore}, in dem Entwickler eigens entwickelte Elemente zur Verfügung stellen können, die meist kostenlos nutzbar sind.
-Da uns dieser Nachteil bei der Evaluation bereits bewusst war, Unity aber für das Renderung von 3D Objekten besser geeignet ist als die App-Entwicklungsoberfläche Android Studio, mussten wir bei der Wahl der Benutzeroberfläche Prioritäten setzen und haben uns trotz dieses Nachteils bewusst für den Einsatz von Unity entschieden.
+Da uns dieser Nachteil bei der Evaluation bereits bewusst war, Unity aber für das Renderung von 3D Objekten besser geeignet ist als die App-Entwicklungsoberfläche Android Studio, mussten wir bei der Wahl der Benutzeroberfläche Prioritäten setzen. So haben uns trotz dieses Nachteils bewusst für den Einsatz von Unity entschieden.
 
 Zur Entwicklung von guten Anwendungen gehören nicht nur fähige Programmierer.
 Eine ganz wichtige Rolle in der Anwendungsentwicklung spielt auch die Projektplanung und -organisation, sowie die Teamfähigkeit der einzelnen Projektmitarbeiter.

@@ -2,14 +2,14 @@
 In den nachfolgenden Abschnitten werden alle für die Implementierung wichtigen technischen Aspekte und deren Umsetzung erläutert. Es wird einen Einblick in die Arbeitsweise mit dem AR-Framework Vuforia im Zusammenspiel mit dem Rendern von 3D Objekten gegeben. Des Weiteren wird die interne Datenhaltung, sowie die Umsetzung einzelnen Szenen in Unity beschrieben.
 
 \section{Einbindung der Mustererkennung}\label{einbindung_mustererkennung}
-In Abschnitt \ref{mustererkennung_vuforia} wurde bereits näher die internen Funktionsweise des Augmented Reality Frameworks \textquote{Vuforia} erklärt. 
+In Abschnitt \ref{mustererkennung_vuforia} wurde bereits näher die interne Funktionsweise des Augmented Reality Frameworks \textquote{Vuforia} erklärt. 
 Um dessen vollen Umfang in der Unity-Projektumgebung nutzen zu können, musste das entsprechende Vuforia Software Development Kit eingebunden werden.
 Es beinhaltet im Wesentlichen alle Grundbausteine für die Entwicklung einer Augmented Reality App und stellt diese in Form von Unity GameObjects (vgl. Abschnitt \ref{aufbau_unity_app}) bereit. 
-Dadurch sind sie genau wie herkömmliche GameObjects nutzbar und können einfach in ein bestehendes Unity-Projekt integriert werden, um dieses zu erweitern.
+Dadurch sind diese genau wie herkömmliche GameObjects nutzbar und können einfach in ein bestehendes Unity-Projekt integriert werden, um dieses zu erweitern.
 
 Ein Beispiel für einen solchen Baustein ist die AR Camera. 
 Sie beinhaltet Logik, um die Hauptkamera des ausführenden Gerätes anzusteuern. 
-Die Szene in der die Kamera platziert wurde, wird nun in das Kamerabild der realen Welt projiziert.
+Die Szene, in der die Kamera platziert wurde, wird nun in das Kamerabild der realen Welt projiziert.
 Dieser Baustein ist essentiell für die Erstellung einer Augmented Reality App. 
 
 Auf einen weiteren essentiellen Baustein aus der Vuforia SDK wird in den nachfolgenden Unterabschnitten \ref{image_targets} und \ref{integration_image_targets} eingegangen. 
@@ -23,7 +23,7 @@ Eines dieser Kriterien sind die Ecken und Kanten im Bild, welche durch die Featu
 Jede scharfe Ecke und Kante wird als Feature abgespeichert und dient später bei der Bilderkennung innerhalb der Anwendung als Vergleichsmerkmal. 
 Je mehr dieser markanten Punkte im Bild vorhanden sind, desto leichter fällt es der Vuforia Engine das Image Target im Kamerabild der AR-Anwendung zu identifizieren (vgl. \cite{ImageTarget2018}).
 
-Um sicherzugehen, dass aus dem gewählten Image Target viele Features extrahiert werden können, sollte das Bild hohe lokale Kontraste besitzen. Das heißt, es sollte ausreichen viele Stellen geben, an denen sehr helle Pixel neben sehr dunklen liegen. 
+Um sicherzugehen, dass aus dem gewählten Image Target viele Features extrahiert werden können, sollte das Bild hohe lokale Kontraste besitzen. Das heißt, es sollte ausreichend viele Stellen geben, an denen sehr helle Pixel neben sehr dunklen liegen. 
 Hiermit ergeben sich ausgeprägte Farbunterschiede und somit schärfere Ecken und Kanten, welche als potentielle Features in Frage kommen (vgl. \cite{ImageTarget2018}).
 
 \begin{figure} [h]
@@ -63,7 +63,7 @@ Es ist ein spezieller Typ von GameObject, welcher von der Vuforia-SDK mitgeliefe
 Ein Beispiel hierfür ist die Scriptkomponente \textquote{Image Target Behaviour}, welche die Kommunikation mit der Image Target Datenbank regelt. 
 Sie bietet die Möglichkeit, zwischen allen importierten Datenbanken und den darin enthaltenen Image Targets zu wählen.
 Wählt man jetzt beim ersten GameObject das Target des Landes Indien, so erscheint an der Stelle des vorher leeren Objekts, das erstellte Image Target für genau dieses Land.
-Dieser Vorgang muss nun für alle restlichen Länder wiederholen, damit alle in der Szene enthalten sind.
+Dieser Vorgang muss nun für alle restlichen Länder wiederholt werden, damit alle in der Szene enthalten sind.
 
 Wenn nun die fertige Szene gestartet wird, öffnet sich zunächst die Kamera des ausführenden Geräts.
 Im Hintergrund wird das Kamerabild ständig untersucht und geprüft, ob sich eines der in der Szene liegenden Image Targets im Sichtfeld befindet. Im Falle einer Bilderkennung können unterschiedliche Aktionen ausgeführt werden, welche in Abschnitt \ref{einbindung_3D_objekte} genauer beschrieben werden.
@@ -78,7 +78,7 @@ Um 3D Objekte realistisch erscheinen zu lassen, findet der Prozess des sogenannt
 Auf Codebasis wird dies realisiert, indem in der \textquote{.obj}-Datei zweidimensionale Texturkoordinaten für eine vorhandene Textur definiert und bestimmten Punktkoordinaten des Objekts zugewiesen werden.
 
 Primitive 3D Objekte, die aus wenigen Polygonen bestehen, können somit leicht selbst erstellt werden, während die Erstellung von komplexeren Objekten und zugehörigen Texturen mehr Zeitaufwand erfordert. 
-Da dieser Zeitaufwand nicht in den zeitlichen Rahmen dieses IT Projektes gepasst hat, haben wir uns dafür entschieden, kostenlose 3D Objekte mit zugehörigen Texturen von verschiedenen Anbietern aus dem Internet zu verwenden, welche im folgenden aufgelistet sind.
+Da dieser Zeitaufwand nicht in den zeitlichen Rahmen dieses IT Projektes gepasst hat, haben wir uns dafür entschieden, kostenlose 3D Objekte mit zugehörigen Texturen von verschiedenen Anbietern aus dem Internet zu verwenden, welche im Folgenden aufgelistet sind.
 
 \begin{itemize}
 \item https://www.turbosquid.com/
@@ -135,7 +135,7 @@ Durch einfache Transformationsoperationen konnten diese Objekte somit auf eine e
 Ein weiterer Anwendungsfall für die nötige Vorverarbeitung der 3D Objekte in Blender war die nötige Reduktion der Polygonzahl der Objekte. 
 Die aus dem Internet stammenden Körper wiesen eine sehr hohe Polygonzahl auf und waren dadurch sehr hoch aufgelöst, was zu einer größeren Dateigröße und somit einer Belastung des Anwendungsspeichers führen würde. 
 Eine solch hohe Auflösung war in unserem Anwendungsfall nicht nötig, da die 3D Objekte auf dem Globus sehr klein skaliert angezeigt werden und die gegebenen Genauigkeiten somit nicht auffallen würden. 
-Um Speicherplatz innerhalb der App zu sparen wurde die Polygonzahl und damit die Dateigröße der 3D Objekte mithilfe von Blender um das zehnfache verringert, bevor diese in der App eingebunden wurden.
+Um Speicherplatz innerhalb der App zu sparen, wurde die Polygonzahl und damit die Dateigröße der 3D Objekte mithilfe von Blender um das zehnfache verringert, bevor diese in der App eingebunden wurden.
 
 Die Veränderung der Polygonzahl wird durch Grafiken \ref{fig:elefant_viele_polygone} und \ref{fig:elefant_wenig_polygone} dargestellt.
 
@@ -165,7 +165,7 @@ In unserem Fall wurde das \textquote{OnTrackable-Found}-Event so erweitert, dass
 \section{Verwaltung der Daten}
 Im Abschnitt \ref{datenhaltung und -bereitstellung} wurde bereits das geplante Vorgehen für die Erstellung und Verwaltung einer Datenbank mit \textquote{SQLite} erläutert. Der folgende Absatz beschreibt nun das resultierende Datenbankmodell, sowie die Interaktion der Applikation mit den gespeicherten Informationen.
 \subsection{Datenbankentwurf}\label{datenbankentwurf}
-Aus der Planung haben sich insgesamt fünf Tabellen entwickelt. Die Tabellen \textquote{Information}, \textquote{Question} und \textquote{Answer} dienen hauptsächlich der Speicherung von austauschbaren Inhalten für den Informations- und Lernteil von TraWo. Hier liegen die Informationen, Fragen und Antworten, auf die der Spieler bei der Nutzung der App trifft. Die Tabellen \textquote{Country} und \textquote{Continent} sind eher als Zuweisungstabellen zu betrachten und spielen für die Codierung der Spiels eine große Rolle.
+Aus der Planung haben sich insgesamt fünf Tabellen ergeben. Die Tabellen \textquote{Information}, \textquote{Question} und \textquote{Answer} dienen hauptsächlich der Speicherung von austauschbaren Inhalten für den Informations- und Lernteil von TraWo. Hier liegen die Informationen, Fragen und Antworten, auf die der Spieler bei der Nutzung der App trifft. Die Tabellen \textquote{Country} und \textquote{Continent} sind eher als Zuweisungstabellen zu betrachten und spielen für die Codierung des Spiels eine große Rolle.
 
 \begin{figure} [h]
 \centering
@@ -176,7 +176,7 @@ Aus der Planung haben sich insgesamt fünf Tabellen entwickelt. Die Tabellen \te
 
 Die Grafik \ref{fig:db_model} stellt das Datenbankmodell in der Martin-Notation dar. Die, auch Krähenfußnotation genannte, Darstellung zu \textquote{Entity-Relationship}-Modellen eignet sich, neben Alternativen wie der Chen-Notation, um eine visuelle Repräsentation von Datenbankentwürfen darzustellen. 
 
-Hierbei sollen die semantischen Zusammenhänge zwischen einzelnen Tabellen in Form von Entitäten aufgezeigt werden, die als Rechtecke abgebildet sind. Neben dem Namen des Entitätstypen enthalten sie noch Attribute, welche die Spaltennamen darstellen. Fremdschlüssel sind als Verweis auf andere Tabellen in Form von referenzierten IDs ebenfalls enthalten. Die Beziehungen der Entitäten stellen die Verbindungslinien dar. Diese geben gleichzeitig - über Symbole an den Enden - Aufschluss über die Kardinalität der Entität in der gegebenen Relation. Ein perpendikular zur Verbindungslinie verlaufender Strich steht für \textquote{eins}, der namensgebende Krähenfuß steht für \textquote{mehrere}.
+Hierbei sollen die semantischen Zusammenhänge zwischen einzelnen Tabellen in Form von Entitäten aufgezeigt werden, die als Rechtecke abgebildet sind. Neben dem Namen des Entitätstypen enthalten sie noch Attribute, welche die Spaltennamen darstellen. Fremdschlüssel sind als Verweis auf andere Tabellen in Form von referenzierten IDs ebenfalls enthalten. Die Beziehungen der Entitäten werden durch die Verbindungslinien dargestellt. Diese geben gleichzeitig - über Symbole an den Enden - Aufschluss über die Kardinalität der Entität in der gegebenen Relation. Ein perpendikular zur Verbindungslinie verlaufender Strich steht für \textquote{eins}, der namensgebende Krähenfuß steht für \textquote{mehrere}.
 
 Die im Diagramm gezeigten Beziehungen Beziehungen lassen sich nun wie folgt lesen:
 \begin{itemize}
@@ -207,7 +207,7 @@ Neben den Lesemethoden, wird beim Start von TraWo einmalig ein SQL-Skript zum Er
 
 \section{Realisierung der Anwendung in Unity}\label{realisierung_unity}
 Im Abschnitt \ref{aufbau_unity_app} des Berichts, wurde bereits der generelle Aufbau einer Unity-Anwendung erläutert.
-Wie unsere Anwendung nun aufgegliedert ist wird im nachfolgenden Teil behandelt.
+Wie unsere Anwendung nun aufgegliedert ist, wird im nachfolgenden Teil behandelt.
 
 Insgesamt besteht die Applikation aus neun Szenen, welche in Abschnitt \ref{prototyp} in Form eines Flowcharts vorgestellt wurden.
 Des weiteren findet sich in Abschnitt \ref{einblick} des Anhang ein Gesamtüberblick über alle finalen Szenen der Applikation.
@@ -231,7 +231,7 @@ Anschließend folgt eine Zwischenszene, welche als Vorschau für das gewählte L
 
 Um den ganzen Bereich dynamisch zu halten, befinden sich in den Szenen nur Dummyobjekte, welche noch nicht mit Texten befüllt sind. Das heißt, dass beispielsweise die Kontinentauswahl vorerst nur leere Buttons und die Informationsszene leere Informationsfelder enthält.
 Durch die in Abschnitt \ref{zugriff_datenbank} beschriebene Datenbankschnittstelle, werden diese nun beim Laden der Szene mit Inhalten befüllt. 
-In diesem Zuge werden die leeren Auswahlbuttons in der Kontinent- und der Länderszene, dem Styleguide entsprechend unterschiedlich eingefärbt. Und die leeren Informationsfelder werden mit hilfreichen Fakten beschrieben.
+In diesem Zuge werden die leeren Auswahlbuttons in der Kontinent- und der Länderszene, dem Styleguide entsprechend unterschiedlich eingefärbt. Die leeren Informationsfelder werden mit hilfreichen Fakten beschrieben.
 Dies wird im Folgenden am Beispiel der Informationsszene verdeutlicht.
 
 Zunächst werfen wir einen Blick auf die vorangehende Szene, in welcher ein Land gewählt wird. 
@@ -291,5 +291,5 @@ Falls nicht, bleibt dieser Zähler gleich und es wird ebenfalls die nächste Fra
 Nach Beantwortung aller Fragen, sollte die erstgenannte Zählervariable der Anzahl an Fragen entsprechen.
 Dies dient als Abbruchbedingung des rekursiven Methodenaufrufs zum Laden einer Frage.
 Nun wird ausgewertet ob der Nutzer alles richtig beantwortet hat und dementsprechend ein positiver oder ein negativer Feedback-Bildschirm angezeigt.
-Dieser informiert darüber ob das Quiz bestanden wurde, zeigt jedoch nicht explizit bei welchen Fragen es nicht geklappt hat.
-Von hieraus gelangt man nun durch einen Button wieder zurück zur Kameraansicht der AR-Szene.
+Dieser informiert darüber ob das Quiz bestanden wurde, zeigt jedoch nicht explizit, welche Fragen falsch beantwortet wurden.
+Von hier aus gelangt man nun durch einen Button wieder zurück zur Kameraansicht der AR-Szene.

@@ -10,7 +10,7 @@ Für das beschriebene IT Projekt war die performante Nutzung von zweidimensional
 
 Vuforia bietet über eine Schnittstelle zur Unity Game Engine sowohl die Möglichkeit der nativen AR-Entwicklung für iOS und Android, als auch die Möglichkeit der hybriden Entwicklung von AR-Anwendungen, welche auf beide Plattformen portierbar sind.
 
-Das Architekturmodell \ref{fig:vuforia_architektur} beschreibt die Funktionsweise des Vuforia SDKs im Zusammenspiel mit der Unity Engine. Die Abbildung ist angelehnt auf das Vuforia-Architekturmodell in \cite{Waruwu2015} und wurde in Hinblick auf die für das IT Projekt relevanten Aspekte vereinfacht.
+Das Architekturmodell \ref{fig:vuforia_architektur} beschreibt die Funktionsweise des Vuforia SDKs im Zusammenspiel mit der Unity Engine. Die Abbildung ist angelehnt an das Architekturmodell von Vuforia in \cite{Waruwu2015} und wurde in Hinblick auf die für das IT Projekt relevanten Aspekte vereinfacht.
 
 \begin{figure} [h]
 \centering
@@ -54,8 +54,8 @@ Bei Objekten, die in einer Eltern-Kind-Beziehung stehen, vererben Objekte in hö
 \end{figure}
 
 Da die GameObjects standardmäßig kein Aussehen und Verhalten haben, werden diese über sogenannte Komponenten, die einem GameObject angefügt werden können, definiert.
-Diese stellen verschiedene Funktionen bereit, um das Verhalten und Aussehen der GameObjects zu bestimmen. 
-Und werden unterteilt in vordefinierte Komponenten und dem speziellen Komponententyp \textquote{Script}.
+Diese stellen verschiedene Funktionen bereit, um das Verhalten und Aussehen der GameObjects zu bestimmen.
+Sie werden unterteilt in vordefinierte Komponenten und dem speziellen Komponententyp \textquote{Script}.
 
 Diese Scriptkomponente ist ebenfalls ein GameObject. Sie ermöglicht es dem Benutzer, den bereits vordefinierten GameObjects ein eigens definiertes Verhalten hinzuzufügen. 
 Sie unterstützt die Programmierung in C\# und der an JavaScript angelehnten Programmiersprache UnityScript (vgl. \cite{Geiger2014}).
